@@ -1,25 +1,7 @@
 #################
-## Project
-#################
-/backup/temp
-/design
-/build
-/bin
-/firebaseapp
-/web/img
-
-#################
 ## Dart
 #################
-packages/
 .project
 *.iml
 *.ipr
 *.iws
-.idea/
-*.dart.js
-*.js_
-*.js.deps
-*.js.map
-.buildlog
-web/out/*
