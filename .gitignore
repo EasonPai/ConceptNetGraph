@@ -10,7 +10,7 @@
 #################
 ## Dart
 #################
-packages/
+#packages/
 .project
 *.dart
 *.iml
