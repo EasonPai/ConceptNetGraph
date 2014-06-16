@@ -9,14 +9,13 @@
 <meta charset="utf-8">
 <title>ConceptNet Graph</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://easonpai.github.io/ConceptNetGraph/common/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://easonpai.github.io/ConceptNetGraph/common/humane/themes/libnotify.css' rel='stylesheet'>
-<link href="https://easonpai.github.io/ConceptNetGraph/common/progressjs/progressjs.min.css" rel="stylesheet">
-<link href="https://easonpai.github.io/ConceptNetGraph/common/progressjs/progressjs_gray.min.css" rel="stylesheet">
-<link href="https://easonpai.github.io/ConceptNetGraph/common/toastr/toastr.min.css" rel="stylesheet">
-<script src="https://easonpai.github.io/ConceptNetGraph/common/progressjs/progress.min.js"></script>
-<script src="https://easonpai.github.io/ConceptNetGraph/common/js/jquery-2.0.3.min.js"></script>
-<script src="https://easonpai.github.io/ConceptNetGraph/common/toastr/toastr.min.js"></script>
+<link href="common/css/bootstrap.min.css" rel="stylesheet">
+<link href="common/progressjs/progressjs.min.css" rel="stylesheet">
+<link href="common/progressjs/progressjs_gray.min.css" rel="stylesheet">
+<link href="common/toastr/toastr.min.css" rel="stylesheet">
+<script src="common/progressjs/progress.min.js"></script>
+<script src="common/js/jquery-2.0.3.min.js"></script>
+<script src="common/toastr/toastr.min.js"></script>
 <style type="text/css">
 body{
 color: whitesmoke;
@@ -26,16 +25,17 @@ height:100%;
 display:block;
 overflow: hidden;
 }
+
 .stage_container {
-overflow: hidden;
+	overflow: hidden;
   width:100%;
   height:100%;
   /*left:0px;
   right:0px;
   top:0px;
-  bottom: 40px;*/
-  padding-top: 44px;
-  margin: 0 0px 0px 0px;
+  bottom: 40px;
+  padding-top: 44px;*/
+  margin: 0px 0px 0px 0px;
   z-index: -10;
 }
 </style>
@@ -45,22 +45,22 @@ overflow: hidden;
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-50790680-1', 'easonpai.github.io/ConceptNetGraph/');
+  ga('create', 'UA-50790680-1', 'conceptnetgraph.com');
   ga('send', 'pageview');
 
 </script>
 </head>
 <body>
- <!-- 
+ <!--
      /////////////////////////////////////////////////////////////
      Javascript
-     ///////////////////////////////////////////////////////////// 
+     /////////////////////////////////////////////////////////////
  -->
 <script>
 //TODO: use progressJs().start().autoIncrease(4, 500); after blink problem is solved
 // use this to prevent blink of canvas
-      progressJs().setOptions({overlayMode: true, theme: 'grayOverlay'}).start().autoIncrease(4, 500);
-      
+      progressJs().setOptions({overlayMode: true, theme: 'grayOverlay'}).start().autoIncrease(4, 300);
+
       if(window.attachEvent) {
           window.attachEvent('onload', function(){ progressJs().end(); });
       } else {
@@ -75,8 +75,6 @@ overflow: hidden;
               window.onload = function(){ progressJs().end(); };
           }
       }
-
-    
 
 var js_root = function(){
  var $toast;
@@ -97,32 +95,29 @@ var js_root = function(){
        "hideMethod": "fadeOut"
      };
   }
-  this.notification = function(msg){
-   //humane.log(msg, { timeout: 10000, clickToClose: true, baseCls: 'humane-libnotify' });
-   //var libnotify = humane.create({baseCls: 'humane-libnotify', addnCls: 'humane-libnotify-info'})
-  //libnotify.log(msg);
-   //humane.info = humane.spawn({ addnCls: 'humane-libnotify-info', timeout: 1000 })
-   //humane.info(msg);
-   
+  this.info = function(msg){
    // clear last toastr
    toastr.clear($toast);
    $toast = toastr.info(msg);
-   
+  }
+  this.warning = function(msg){
+   toastr.clear($toast);
+   $toast = toastr.warning(msg);
   }
   this.start_progressjs = function(target){
-   progressJs(target).setOptions({overlayMode: true, theme: 'blueOverlay'}).start().autoIncrease(4, 500); 
+   progressJs(target).setOptions({overlayMode: true, theme: 'blueOverlay'}).start().autoIncrease(4, 500);
   }
   this.end_progressjs = function(target){
-   progressJs(target).end(); 
+   progressJs(target).end();
   }
 };
 $(function() {
 });
 </script>
-    <!-- 
+    <!--
      /////////////////////////////////////////////////////////////
      nav
-     ///////////////////////////////////////////////////////////// 
+     /////////////////////////////////////////////////////////////
  -->
 <nav class="navbar navbar-default navbar-fixed-top" style="margin-bottom: 0px;" role="navigation">
   <div class="container-fluid">
@@ -140,19 +135,21 @@ $(function() {
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
-        <li><a href="https://github.com/commonsense/conceptnet5/wiki">About ConceptNet</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">About <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="#" data-target="#modal_conceptnet_json" data-toggle="modal">ConceptNet Data</a></li>
+        <li><a href="https://github.com/commonsense/conceptnet5/wiki">ConceptNet</a></li>
+        <li><a href="#">ConceptNet Graph</a></li>
+        <li><a href="#">Me</a></li>
             <li><div id="fpsMeter" class="pull-middle"></div></li>
           </ul>
         </li>
+        <li><a href="#" data-target="#modal_conceptnet_json" data-toggle="modal">ConceptNet Data</a></li>
       </ul>
       <form class="navbar-form navbar-right" role="search">
         <div class="form-group">
-        <input id="search-text" type="text" class="form-control" title="Search for a concept..." 
-        placeholder="Search for a concept..." value="機器人">
+        <input id="search-text" type="text" class="form-control" title="Search for a concept..."
+        placeholder="Search for a concept..." value="">
         <select id="language-select" name="language" title="Select a language" class="form-control" >
                 <option value="af">Afrikaans</option>
                 <option value="ar">Arabic</option>
@@ -234,19 +231,19 @@ $(function() {
     <!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-    <!-- 
+    <!--
      /////////////////////////////////////////////////////////////
      canvas
-     ///////////////////////////////////////////////////////////// 
+     /////////////////////////////////////////////////////////////
  -->
     <canvas id="stage" class="stage_container"></canvas>
-    
 
-    <!-- 
+
+    <!--
      /////////////////////////////////////////////////////////////
      modal
-     ///////////////////////////////////////////////////////////// 
- -->
+     /////////////////////////////////////////////////////////////
+	-->
   <div id="modal_conceptnet_json" class="modal fade" tabindex="-1"
    role="dialog">
    <div class="modal-dialog">
@@ -267,14 +264,14 @@ $(function() {
     </div>
    </div>
   </div>
-    
-  <!-- 
+
+  <!--
      /////////////////////////////////////////////////////////////
      dart
-     ///////////////////////////////////////////////////////////// 
+     /////////////////////////////////////////////////////////////
  -->
-  <script src='https://easonpai.github.io/ConceptNetGraph/common/humane/humane.min.js'></script>
-  <script type="application/dart" src="https://easonpai.github.io/ConceptNetGraph/index.dart"></script>
-  <script src="https://easonpai.github.io/ConceptNetGraph/packages/browser/dart.js"></script>
+  <script src='common/humane/humane.min.js'></script>
+  <script type="application/dart" src="index.dart.js"></script>
+  <script src="packages/browser/dart.js"></script>
 </body>
 </html>
