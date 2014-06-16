@@ -17226,6 +17226,7 @@ var $$ = {};
       this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_mouseUp.eventType).listen$1(new U.GraphRenderer_initCanvas_closure1(this));
       this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_touchEnd.eventType).listen$1(new U.GraphRenderer_initCanvas_closure2(this));
       this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_mouseMove.eventType).listen$1(this.get$dragDropOnCanvas());
+      this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_touchMove.eventType).listen$1(this.get$dragDropOnCanvas());
       t1 = H.setRuntimeTypeInfo([], [Z._GraphicsCommand]);
       t2 = $.DisplayObject__nextID;
       $.DisplayObject__nextID = t2 + 1;
@@ -17613,6 +17614,8 @@ var $$ = {};
       t2 = t1.sprite_canvas_viewport;
       t1.int_canvas_viewport_start_x = t2._x;
       t1.int_canvas_viewport_start_y = t2._y;
+      t2 = " sprite_canvas_bg > onMouseDown > " + H.S($event) + " ";
+      $.mLog.log$5(t2, null, null, null, null);
     }, "call$1", null, 2, 0, null, 72, "call"],
     $isFunction: true
   },
@@ -17627,22 +17630,28 @@ var $$ = {};
       t2 = t1.sprite_canvas_viewport;
       t1.int_canvas_viewport_start_x = t2._x;
       t1.int_canvas_viewport_start_y = t2._y;
-      $.mLog.log$5(" sprite_canvas_bg.onTouchBegin ", null, null, null, null);
+      t2 = " sprite_canvas_bg > onTouchBegin > " + H.S($event) + " ";
+      $.mLog.log$5(t2, null, null, null, null);
     }, "call$1", null, 2, 0, null, 72, "call"],
     $isFunction: true
   },
   GraphRenderer_initCanvas_closure1: {
     "^": "Closure:46;this_2",
     call$1: [function($event) {
+      var t1;
       this.this_2.mFlagCanvasDragging = false;
+      t1 = " sprite_canvas_bg > onMouseUp > " + H.S($event) + " ";
+      $.mLog.log$5(t1, null, null, null, null);
     }, "call$1", null, 2, 0, null, 72, "call"],
     $isFunction: true
   },
   GraphRenderer_initCanvas_closure2: {
     "^": "Closure:46;this_3",
     call$1: [function($event) {
+      var t1;
       this.this_3.mFlagCanvasDragging = false;
-      $.mLog.log$5(" sprite_canvas_bg.onTouchEnd ", null, null, null, null);
+      t1 = " sprite_canvas_bg > onTouchEnd > " + H.S($event) + " ";
+      $.mLog.log$5(t1, null, null, null, null);
     }, "call$1", null, 2, 0, null, 72, "call"],
     $isFunction: true
   },
@@ -17650,6 +17659,8 @@ var $$ = {};
     "^": "Closure:46;this_1,edge_2,edgeView_3",
     call$1: [function(e) {
       var t1, t2;
+      t1 = " createEdgeView > onMouseDown > " + H.S(e) + " ";
+      $.mLog.log$5(t1, null, null, null, null);
       J.get$target$x(e).startDrag$1(false);
       t1 = this.edge_2;
       t1.set$isDragging(true);
@@ -17664,6 +17675,8 @@ var $$ = {};
     "^": "Closure:46;box_0,this_4,edge_5,edgeView_6",
     call$1: [function(e) {
       var t1, t2;
+      t1 = " createEdgeView > onTouchBegin > " + H.S(e) + " ";
+      $.mLog.log$5(t1, null, null, null, null);
       J.get$target$x(e).startDrag$1(false);
       t1 = this.edge_5;
       t1.set$isDragging(true);
@@ -17681,7 +17694,8 @@ var $$ = {};
   GraphRenderer_createEdgeView_closure1: {
     "^": "Closure:46;box_0,edge_7",
     call$1: [function(e) {
-      var t1;
+      var t1 = " createEdgeView > onMouseClick > " + H.S(e) + " ";
+      $.mLog.log$5(t1, null, null, null, null);
       if (this.box_0.hasSurface_0) {
         t1 = this.edge_7.get$surface();
         $.mJsRoot.callMethod$2("info", [t1]);
@@ -17692,7 +17706,8 @@ var $$ = {};
   GraphRenderer_createEdgeView_closure2: {
     "^": "Closure:46;this_8,edge_9",
     call$1: [function(e) {
-      var t1;
+      var t1 = " createEdgeView > onMouseUp > " + H.S(e) + " ";
+      $.mLog.log$5(t1, null, null, null, null);
       J.get$target$x(e).stopDrag$0();
       this.edge_9.set$isDragging(false);
       t1 = this.this_8;
@@ -17704,7 +17719,8 @@ var $$ = {};
   GraphRenderer_createEdgeView_closure3: {
     "^": "Closure:46;this_10,edge_11",
     call$1: [function(e) {
-      var t1;
+      var t1 = " createEdgeView > onTouchEnd > " + H.S(e) + " ";
+      $.mLog.log$5(t1, null, null, null, null);
       J.get$target$x(e).stopDrag$0();
       this.edge_11.set$isDragging(false);
       t1 = this.this_10;
@@ -17731,6 +17747,8 @@ var $$ = {};
     "^": "Closure:46;this_15,edge_16,edgeView_17",
     call$1: [function(e) {
       var t1, t2;
+      t1 = " createEdgeView > onTouchMove > " + H.S(e) + " ";
+      $.mLog.log$5(t1, null, null, null, null);
       t1 = this.edge_16;
       if (t1.get$isDragging()) {
         t2 = this.edgeView_17;
