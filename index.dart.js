@@ -17224,7 +17224,7 @@ var $$ = {};
       this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_mouseDown.eventType).listen$1(new U.GraphRenderer_initCanvas_closure(this));
       this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_touchBegin.eventType).listen$1(new U.GraphRenderer_initCanvas_closure0(this));
       this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_mouseUp.eventType).listen$1(new U.GraphRenderer_initCanvas_closure1(this));
-      this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_touchEnd.eventType).listen$1(new U.GraphRenderer_initCanvas_closure2());
+      this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_touchEnd.eventType).listen$1(new U.GraphRenderer_initCanvas_closure2(this));
       this.sprite_canvas_bg.on$1(0, C.EventStreamProvider_mouseMove.eventType).listen$1(this.get$dragDropOnCanvas());
       t1 = H.setRuntimeTypeInfo([], [Z._GraphicsCommand]);
       t2 = $.DisplayObject__nextID;
@@ -17348,9 +17348,12 @@ var $$ = {};
         edgeText._y = t2;
       edgeText._transformationMatrixRefresh = true;
       edgeView.on$1(0, C.EventStreamProvider_mouseDown.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure(this, edge, edgeView));
-      edgeView.on$1(0, C.EventStreamProvider_click.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure0(t1, edge));
-      edgeView.on$1(0, C.EventStreamProvider_mouseUp.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure1(this, edge));
-      edgeView.on$1(0, C.EventStreamProvider_mouseMove.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure2(this, edge, edgeView));
+      edgeView.on$1(0, C.EventStreamProvider_touchBegin.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure0(t1, this, edge, edgeView));
+      edgeView.on$1(0, C.EventStreamProvider_click.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure1(t1, edge));
+      edgeView.on$1(0, C.EventStreamProvider_mouseUp.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure2(this, edge));
+      edgeView.on$1(0, C.EventStreamProvider_touchEnd.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure3(this, edge));
+      edgeView.on$1(0, C.EventStreamProvider_mouseMove.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure4(this, edge, edgeView));
+      edgeView.on$1(0, C.EventStreamProvider_touchMove.eventType).listen$1(new U.GraphRenderer_createEdgeView_closure5(this, edge, edgeView));
       return edgeView;
     },
     createEdgeBackground$2: function(color, hasBorder) {
@@ -17616,7 +17619,14 @@ var $$ = {};
   GraphRenderer_initCanvas_closure0: {
     "^": "Closure:46;this_1",
     call$1: [function($event) {
-      this.this_1.mFlagCanvasDragging = true;
+      var t1, t2;
+      t1 = this.this_1;
+      t1.mFlagCanvasDragging = true;
+      t1.int_canvas_drag_start_x = $event.get$stageX();
+      t1.int_canvas_drag_start_y = $event.get$stageY();
+      t2 = t1.sprite_canvas_viewport;
+      t1.int_canvas_viewport_start_x = t2._x;
+      t1.int_canvas_viewport_start_y = t2._y;
       $.mLog.log$5(" sprite_canvas_bg.onTouchBegin ", null, null, null, null);
     }, "call$1", null, 2, 0, null, 72, "call"],
     $isFunction: true
@@ -17629,8 +17639,9 @@ var $$ = {};
     $isFunction: true
   },
   GraphRenderer_initCanvas_closure2: {
-    "^": "Closure:46;",
+    "^": "Closure:46;this_3",
     call$1: [function($event) {
+      this.this_3.mFlagCanvasDragging = false;
       $.mLog.log$5(" sprite_canvas_bg.onTouchEnd ", null, null, null, null);
     }, "call$1", null, 2, 0, null, 72, "call"],
     $isFunction: true
@@ -17650,38 +17661,82 @@ var $$ = {};
     $isFunction: true
   },
   GraphRenderer_createEdgeView_closure0: {
-    "^": "Closure:46;box_0,edge_4",
+    "^": "Closure:46;box_0,this_4,edge_5,edgeView_6",
     call$1: [function(e) {
-      var t1;
+      var t1, t2;
+      J.get$target$x(e).startDrag$1(false);
+      t1 = this.edge_5;
+      t1.set$isDragging(true);
+      t2 = this.edgeView_6;
+      t1.set$dragStartX(t2._x);
+      t1.set$dragStartY(t2._y);
+      this.this_4.mFlagGlobalHasEdgeDragging = true;
       if (this.box_0.hasSurface_0) {
-        t1 = this.edge_4.get$surface();
+        t1 = t1.get$surface();
         $.mJsRoot.callMethod$2("info", [t1]);
       }
     }, "call$1", null, 2, 0, null, 1, "call"],
     $isFunction: true
   },
   GraphRenderer_createEdgeView_closure1: {
-    "^": "Closure:46;this_5,edge_6",
+    "^": "Closure:46;box_0,edge_7",
+    call$1: [function(e) {
+      var t1;
+      if (this.box_0.hasSurface_0) {
+        t1 = this.edge_7.get$surface();
+        $.mJsRoot.callMethod$2("info", [t1]);
+      }
+    }, "call$1", null, 2, 0, null, 1, "call"],
+    $isFunction: true
+  },
+  GraphRenderer_createEdgeView_closure2: {
+    "^": "Closure:46;this_8,edge_9",
     call$1: [function(e) {
       var t1;
       J.get$target$x(e).stopDrag$0();
-      this.edge_6.set$isDragging(false);
-      t1 = this.this_5;
+      this.edge_9.set$isDragging(false);
+      t1 = this.this_8;
       t1.mFlagCanvasDragging = false;
       t1.mFlagGlobalHasEdgeDragging = false;
     }, "call$1", null, 2, 0, null, 1, "call"],
     $isFunction: true
   },
-  GraphRenderer_createEdgeView_closure2: {
-    "^": "Closure:46;this_7,edge_8,edgeView_9",
+  GraphRenderer_createEdgeView_closure3: {
+    "^": "Closure:46;this_10,edge_11",
+    call$1: [function(e) {
+      var t1;
+      J.get$target$x(e).stopDrag$0();
+      this.edge_11.set$isDragging(false);
+      t1 = this.this_10;
+      t1.mFlagCanvasDragging = false;
+      t1.mFlagGlobalHasEdgeDragging = false;
+    }, "call$1", null, 2, 0, null, 1, "call"],
+    $isFunction: true
+  },
+  GraphRenderer_createEdgeView_closure4: {
+    "^": "Closure:46;this_12,edge_13,edgeView_14",
     call$1: [function(e) {
       var t1, t2;
-      t1 = this.edge_8;
+      t1 = this.edge_13;
       if (t1.get$isDragging()) {
-        t2 = this.edgeView_9;
+        t2 = this.edgeView_14;
         t1.set$dragDeltaX(t2._x - t1.get$dragStartX());
         t1.set$dragDeltaY(t2._y - t1.get$dragStartY());
-        this.this_7.dynGraphLayout$1(t1);
+        this.this_12.dynGraphLayout$1(t1);
+      }
+    }, "call$1", null, 2, 0, null, 1, "call"],
+    $isFunction: true
+  },
+  GraphRenderer_createEdgeView_closure5: {
+    "^": "Closure:46;this_15,edge_16,edgeView_17",
+    call$1: [function(e) {
+      var t1, t2;
+      t1 = this.edge_16;
+      if (t1.get$isDragging()) {
+        t2 = this.edgeView_17;
+        t1.set$dragDeltaX(t2._x - t1.get$dragStartX());
+        t1.set$dragDeltaY(t2._y - t1.get$dragStartY());
+        this.this_15.dynGraphLayout$1(t1);
       }
     }, "call$1", null, 2, 0, null, 1, "call"],
     $isFunction: true
@@ -31356,6 +31411,8 @@ Z.TextLineMetrics.$isObject = true;
 Z.MouseEvent.$isMouseEvent = true;
 Z.MouseEvent.$isEvent = true;
 Z.MouseEvent.$isObject = true;
+Z.TouchEvent.$isEvent = true;
+Z.TouchEvent.$isObject = true;
 Z.EventStream.$isStream = true;
 Z.EventStream.$isObject = true;
 Z._FontStyleMetrics.$isObject = true;
@@ -31375,8 +31432,6 @@ W.MouseEvent0.$isEvent0 = true;
 W.MouseEvent0.$isObject = true;
 Z.Event.$isEvent = true;
 Z.Event.$isObject = true;
-Z.TouchEvent.$isEvent = true;
-Z.TouchEvent.$isObject = true;
 U.ConceptDO.$isObject = true;
 P.Function.$isObject = true;
 S.BlockCipher.$isObject = true;
@@ -32179,6 +32234,7 @@ C.EventStreamProvider_resize = H.setRuntimeTypeInfo(new Z.EventStreamProvider0("
 C.EventStreamProvider_textInput = H.setRuntimeTypeInfo(new Z.EventStreamProvider0("textInput"), [Z.TextEvent0]);
 C.EventStreamProvider_touchBegin = H.setRuntimeTypeInfo(new Z.EventStreamProvider0("touchBegin"), [Z.TouchEvent]);
 C.EventStreamProvider_touchEnd = H.setRuntimeTypeInfo(new Z.EventStreamProvider0("touchEnd"), [Z.TouchEvent]);
+C.EventStreamProvider_touchMove = H.setRuntimeTypeInfo(new Z.EventStreamProvider0("touchMove"), [Z.TouchEvent]);
 C.EventStreamProvider_touchcancel = H.setRuntimeTypeInfo(new W.EventStreamProvider("touchcancel"), [W.TouchEvent0]);
 C.EventStreamProvider_touchend = H.setRuntimeTypeInfo(new W.EventStreamProvider("touchend"), [W.TouchEvent0]);
 C.EventStreamProvider_touchenter = H.setRuntimeTypeInfo(new W.EventStreamProvider("touchenter"), [W.TouchEvent0]);
@@ -32368,7 +32424,7 @@ $.Transition__end = null;
 $._initialized0 = false;
 $._initialized = false;
 $.mLog = null;
-$.version = "0.3.0";
+$.version = "0.3.1";
 $.mStage = null;
 $.stageWidth = null;
 $.stageHeight = null;
