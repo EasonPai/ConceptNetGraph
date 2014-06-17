@@ -16972,7 +16972,7 @@ var $$ = {};
     $.stageHeight = t1._canvasHeight;
     t1 = new U.ConceptNetGraph(null, null);
     t1.model = U.ModelManager$();
-    t2 = new U.GraphRenderer(t1, null, null, null, null, null, null, null, null, null, null, false, null, null, null, null, null, null, null, null);
+    t2 = new U.GraphRenderer(t1, null, null, null, null, null, null, null, null, null, null, false, null, null, null, null, null, null, null, null, null, 0.01, null);
     $.Multitouch__inputMode = "touchPoint";
     t3 = $.get$Multitouch__inputModeChangedEvent();
     if (t3._state >= 4)
@@ -17056,7 +17056,7 @@ var $$ = {};
   initTest__closure: {
     "^": "Closure:46;",
     call$1: [function(result) {
-      $.mConceptnet.search$2(0, "\u958b\u8eca", J.trim$0$s(J.get$value$x($.select_language))).then$1(new U.initTest___closure());
+      $.mConceptnet.search$2(0, "\u7761\u89ba", J.trim$0$s(J.get$value$x($.select_language))).then$1(new U.initTest___closure());
     }, "call$1", null, 2, 0, null, 71, "call"],
     $isFunction: true
   },
@@ -17071,7 +17071,7 @@ var $$ = {};
   initTest____closure: {
     "^": "Closure:46;",
     call$1: [function(result) {
-      $.mConceptnet.search$2(0, "\u7761\u89ba", J.trim$0$s(J.get$value$x($.select_language))).then$1(new U.initTest_____closure());
+      $.mConceptnet.search$2(0, "\u958b\u8eca", J.trim$0$s(J.get$value$x($.select_language))).then$1(new U.initTest_____closure());
     }, "call$1", null, 2, 0, null, 71, "call"],
     $isFunction: true
   },
@@ -17115,6 +17115,7 @@ var $$ = {};
       t1._timer.start$0(0);
       t1 = $.mConceptnet.graph;
       t1.graphLoop$0();
+      t1.circlePacking$0();
       t1.renderRelationship$0();
     }, "call$1", null, 2, 0, null, 1, "call"],
     $isFunction: true
@@ -17196,10 +17197,10 @@ var $$ = {};
     "^": "Object;startEdge,endEdgeDO<"
   },
   ConceptDO: {
-    "^": "Object;id,model,relations<,edgeLemmas<,surface<,asKeyRole<,isDragging@,setAsFocus@,view*,groupRadious<,dragStartX@,dragStartY@,dragDeltaX?,dragDeltaY?"
+    "^": "Object;id,model,relations<,edgeLemmas<,surface<,asKeyRole<,isDragging@,setAsFocus?,view*,groupRadious<,dragStartX@,dragStartY@,dragDeltaX?,dragDeltaY?"
   },
   GraphRenderer: {
-    "^": "Object;conceptnet,mStage,sprite_canvas_bg,sprite_canvas_viewport,nerueTextFormat,debugTextFormat,debutText,graph_canvas,mStageWidth,mStageHeight,mFlagCanvasDragging,mFlagGlobalHasEdgeDragging,int_canvas_drag_start_x,int_canvas_drag_start_y,int_canvas_viewport_start_x,int_canvas_viewport_start_y,concept_start_edges,currentFocus,background_cache,startEdgeFoundByDraggingEndEdge",
+    "^": "Object;conceptnet,mStage,sprite_canvas_bg,sprite_canvas_viewport,nerueTextFormat,debugTextFormat,debutText,graph_canvas,mStageWidth,mStageHeight,mFlagCanvasDragging,mFlagGlobalHasEdgeDragging,int_canvas_drag_start_x,int_canvas_drag_start_y,int_canvas_viewport_start_x,int_canvas_viewport_start_y,concept_start_edges,currentFocus,mDraggingEdge,background_cache,vector,damping,startEdgeFoundByDraggingEndEdge",
     init$1: function(stage) {
       var t1;
       this.mStage = stage;
@@ -17272,18 +17273,29 @@ var $$ = {};
       }
     }, "call$1", "get$dragDropOnCanvas", 2, 0, 46, 72],
     resize$2: function(_, stageWidth, stageHeight) {
-      var t1, start, t2;
+      var t1, t2, t3;
       t1 = "resize >> " + H.S(stageWidth) + " / " + H.S(stageHeight);
       $.mLog.log$5(t1, this, null, null, null);
       this.sprite_canvas_bg.set$width(0, stageWidth);
       this.sprite_canvas_bg.set$height(0, stageHeight);
-      if (this.mStageWidth != null)
-        for (t1 = this.concept_start_edges, t1 = H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]); t1.moveNext$0();) {
-          start = t1.__internal$_current;
-          t2 = J.getInterceptor$x(start);
-          J.set$x$x(t2.get$view(start), J.$mul$ns(J.$div$n(J.get$x$x(t2.get$view(start)), this.mStageWidth), stageWidth));
-          J.set$y$x(t2.get$view(start), J.$mul$ns(J.$div$n(J.get$y$x(t2.get$view(start)), this.mStageHeight), stageHeight));
-        }
+      t1 = this.mStageWidth;
+      if (t1 != null) {
+        t2 = this.sprite_canvas_viewport;
+        t3 = t2._x;
+        if (typeof t1 !== "number")
+          return H.iae(t1);
+        if (typeof stageWidth !== "number")
+          return H.iae(stageWidth);
+        t2.set$x(0, t3 / t1 * stageWidth);
+        t1 = this.sprite_canvas_viewport;
+        t3 = t1._y;
+        t2 = this.mStageHeight;
+        if (typeof t2 !== "number")
+          return H.iae(t2);
+        if (typeof stageHeight !== "number")
+          return H.iae(stageHeight);
+        t1.set$y(0, t3 / t2 * stageHeight);
+      }
       this.mStageWidth = stageWidth;
       this.mStageHeight = stageHeight;
       this.graph_canvas.applyCache$5$debugBorder(0, 0, stageWidth, stageHeight, false);
@@ -17314,7 +17326,7 @@ var $$ = {};
           edgeView._transformationMatrixRefresh = true;
         }
       }
-      this.performAutoLayout$0();
+      this.layoutPacking$0();
     },
     createEdgeView$1: function(edge) {
       var t1, t2, t3, edgeView, t4, edgeText;
@@ -17467,13 +17479,158 @@ var $$ = {};
         }
       }
     },
-    performAutoLayout$0: function() {
-      var t1, t2;
-      for (t1 = this.concept_start_edges, t1 = H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]); t1.moveNext$0();) {
-        t2 = "concept.setAsFocus >  " + t1.__internal$_current.get$setAsFocus();
-        $.mLog.log$5(t2, null, null, null, null);
+    layoutPacking$0: function() {
+      var i, t1, localPosY, localPosX, t2, t3, tween, tweenProperty;
+      for (i = 0; i < this.concept_start_edges.length; ++i) {
+        t1 = 6.283185307179586 * i / 6;
+        localPosY = Math.sin(t1);
+        localPosX = Math.cos(t1);
+        t1 = this.concept_start_edges;
+        if (i >= t1.length)
+          return H.ioore(t1, i);
+        t1 = J.$eq(t1[i], this.currentFocus);
+        t2 = this.mStage;
+        t3 = this.concept_start_edges;
+        if (t1) {
+          t1 = t2._juggler;
+          if (i >= t3.length)
+            return H.ioore(t3, i);
+          t3 = J.get$view$x(t3[i]);
+          t2 = [];
+          t2.$builtinTypeInfo = [Z.TweenProperty];
+          tween = new Z.Tween(t3, Z.TransitionFunction_easeOutExponential$closure(), t2, null, null, null, 0, 0, 0, false, false);
+          if (!J.getInterceptor(t3).$isDisplayObject)
+            H.throwExpression(P.ArgumentError$("displayObject"));
+          tween._totalTime = P.max(0.0001, 0.4);
+          t1.add$1(0, tween);
+          t1 = i * 0.002;
+          t2 = tween._started;
+          if (!t2) {
+            tween._currentTime = tween._currentTime + tween._delay - t1;
+            tween._delay = t1;
+          }
+          t1 = tween._displayObject;
+          tweenProperty = new Z.TweenProperty(t1, 0, 0 / 0, 0 / 0, 0 / 0);
+          if (!t2)
+            tween._tweenPropertyList.push(tweenProperty);
+          tweenProperty._targetValue = C.JSNumber_methods.toDouble$0(C.JSInt_methods._tdivFast$1(this.mStage._canvasWidth, 2) + localPosX * ($.GraphParams_ConceptGroupDefaultRadius * 2 + $.GraphParams_ConceptEdgeRadius * 2));
+          tweenProperty = new Z.TweenProperty(t1, 1, 0 / 0, 0 / 0, 0 / 0);
+          if (!tween._started)
+            tween._tweenPropertyList.push(tweenProperty);
+          tweenProperty._targetValue = C.JSNumber_methods.toDouble$0(C.JSInt_methods._tdivFast$1(this.mStage._canvasHeight, 2) + localPosY * ($.GraphParams_ConceptGroupDefaultRadius * 2 + $.GraphParams_ConceptEdgeRadius * 2));
+          tween._onComplete = this.get$centerViewPortToFocus();
+        } else {
+          t1 = t2._juggler;
+          if (i >= t3.length)
+            return H.ioore(t3, i);
+          t3 = J.get$view$x(t3[i]);
+          t2 = [];
+          t2.$builtinTypeInfo = [Z.TweenProperty];
+          tween = new Z.Tween(t3, Z.TransitionFunction_easeOutExponential$closure(), t2, null, null, null, 0, 0, 0, false, false);
+          if (!J.getInterceptor(t3).$isDisplayObject)
+            H.throwExpression(P.ArgumentError$("displayObject"));
+          tween._totalTime = P.max(0.0001, 0.4);
+          t1.add$1(0, tween);
+          t1 = i * 0.002;
+          t2 = tween._started;
+          if (!t2) {
+            tween._currentTime = tween._currentTime + tween._delay - t1;
+            tween._delay = t1;
+          }
+          t1 = tween._displayObject;
+          tweenProperty = new Z.TweenProperty(t1, 0, 0 / 0, 0 / 0, 0 / 0);
+          if (!t2)
+            tween._tweenPropertyList.push(tweenProperty);
+          tweenProperty._targetValue = C.JSNumber_methods.toDouble$0(C.JSInt_methods._tdivFast$1(this.mStage._canvasWidth, 2) + localPosX * ($.GraphParams_ConceptGroupDefaultRadius * 2 + $.GraphParams_ConceptEdgeRadius * 2));
+          tweenProperty = new Z.TweenProperty(t1, 1, 0 / 0, 0 / 0, 0 / 0);
+          if (!tween._started)
+            tween._tweenPropertyList.push(tweenProperty);
+          tweenProperty._targetValue = C.JSNumber_methods.toDouble$0(C.JSInt_methods._tdivFast$1(this.mStage._canvasHeight, 2) + localPosY * ($.GraphParams_ConceptGroupDefaultRadius * 2 + $.GraphParams_ConceptEdgeRadius * 2));
+        }
       }
     },
+    circlePacking$0: function() {
+      var t1, t2, i, ci, j, j0, cj, dx, dy, r, t3, t4, d, nf, t5, c;
+      t1 = this.concept_start_edges;
+      t2 = this.get$sortOnDistanceToCenter();
+      t1.toString;
+      if (typeof t1 !== "object" || t1 === null || !!t1.immutable$list)
+        H.throwExpression(P.UnsupportedError$("sort"));
+      H.IterableMixinWorkaround_sortList(t1, t2);
+      for (i = 0; t1 = this.concept_start_edges, i < t1.length; i = j) {
+        ci = t1[i];
+        for (j = i + 1, t1 = J.getInterceptor$x(ci), j0 = j; t2 = this.concept_start_edges, j0 < t2.length; ++j0) {
+          cj = t2[j0];
+          if (i === j0)
+            continue;
+          t2 = J.getInterceptor$x(cj);
+          dx = J.$sub$n(J.get$x$x(t2.get$view(cj)), J.get$x$x(t1.get$view(ci)));
+          dy = J.$sub$n(J.get$y$x(t2.get$view(cj)), J.get$y$x(t1.get$view(ci)));
+          r = ($.GraphParams_ConceptGroupDefaultRadius + $.GraphParams_ConceptEdgeRadius) * 2;
+          t3 = J.getInterceptor$ns(dx);
+          t4 = J.getInterceptor$ns(dy);
+          d = J.$add$ns(t3.$mul(dx, dx), t4.$mul(dy, dy));
+          if (J.$lt$n(d, r * r - 0.01)) {
+            t3 = t3.toDouble$0(dx);
+            t4 = t4.toDouble$0(dy);
+            this.vector = new Z.Vector(t3, t4);
+            nf = 1 / Math.sqrt(t3 * t3 + t4 * t4);
+            t3 = C.JSNumber_methods.toDouble$0(t3 * nf);
+            t4 = C.JSNumber_methods.toDouble$0(t4 * nf);
+            this.vector = new Z.Vector(t3, t4);
+            if (typeof d !== "number")
+              H.throwExpression(P.ArgumentError$(d));
+            t5 = (r - Math.sqrt(d)) * 0.5;
+            this.vector = new Z.Vector(C.JSNumber_methods.toDouble$0(t3 * t5), C.JSNumber_methods.toDouble$0(t4 * t5));
+            if (!t2.$eq(cj, this.mDraggingEdge)) {
+              t3 = t2.get$view(cj);
+              t4 = J.getInterceptor$x(t3);
+              t4.set$x(t3, J.$add$ns(t4.get$x(t3), this.vector._x));
+              t2 = t2.get$view(cj);
+              t3 = J.getInterceptor$x(t2);
+              t3.set$y(t2, J.$add$ns(t3.get$y(t2), this.vector._y));
+            }
+            if (!t1.$eq(ci, this.mDraggingEdge)) {
+              t2 = t1.get$view(ci);
+              t3 = J.getInterceptor$x(t2);
+              t3.set$x(t2, J.$sub$n(t3.get$x(t2), this.vector._x));
+              t2 = t1.get$view(ci);
+              t3 = J.getInterceptor$x(t2);
+              t3.set$y(t2, J.$sub$n(t3.get$y(t2), this.vector._y));
+            }
+          }
+        }
+      }
+      for (t1 = this.damping, i = 0; t2 = this.concept_start_edges, i < t2.length; ++i) {
+        c = t2[i];
+        t2 = J.getInterceptor(c);
+        if (t2.$eq(c, this.mDraggingEdge))
+          continue;
+        t3 = t2.get$view(c);
+        t4 = J.getInterceptor$x(t3);
+        t4.set$x(t3, J.$sub$n(t4.get$x(t3), J.$mul$ns(J.$sub$n(J.get$x$x(t2.get$view(c)), this.mStage._canvasWidth / 2), t1)));
+        t3 = t2.get$view(c);
+        t4 = J.getInterceptor$x(t3);
+        t4.set$y(t3, J.$sub$n(t4.get$y(t3), J.$mul$ns(J.$sub$n(J.get$y$x(t2.get$view(c)), this.mStage._canvasHeight / 2), t1)));
+      }
+    },
+    sortOnDistanceToCenter$2: [function(a, b) {
+      var t1, valueA, valueB, comparisonValue;
+      t1 = J.getInterceptor$x(a);
+      valueA = J.$add$ns(J.$mul$ns(J.$sub$n(J.get$x$x(t1.get$view(a)), this.mStage._canvasWidth / 2), J.$sub$n(J.get$x$x(t1.get$view(a)), this.mStage._canvasWidth / 2)), J.$mul$ns(J.$sub$n(J.get$y$x(t1.get$view(a)), this.mStage._canvasHeight / 2), J.$sub$n(J.get$y$x(t1.get$view(a)), this.mStage._canvasHeight / 2)));
+      t1 = J.getInterceptor$x(b);
+      valueB = J.$add$ns(J.$mul$ns(J.$sub$n(J.get$x$x(t1.get$view(b)), this.mStage._canvasWidth / 2), J.$sub$n(J.get$x$x(t1.get$view(b)), this.mStage._canvasWidth / 2)), J.$mul$ns(J.$sub$n(J.get$y$x(t1.get$view(b)), this.mStage._canvasHeight / 2), J.$sub$n(J.get$y$x(t1.get$view(b)), this.mStage._canvasHeight / 2)));
+      t1 = J.getInterceptor$n(valueA);
+      if (t1.$gt(valueA, valueB))
+        comparisonValue = -1;
+      else
+        comparisonValue = t1.$lt(valueA, valueB) ? 1 : 0;
+      return comparisonValue;
+    }, "call$2", "get$sortOnDistanceToCenter", 4, 0, 74],
+    centerViewPortToFocus$0: [function() {
+      var t1 = "center viewport >  " + J.toInt$0$n(J.get$x$x(J.get$view$x(this.currentFocus))) + " / " + J.toInt$0$n(J.get$y$x(J.get$view$x(this.currentFocus)));
+      $.mLog.log$5(t1, null, null, null, null);
+    }, "call$0", "get$centerViewPortToFocus", 0, 0, 10],
     dynGraphLayout$1: function(dragTarget) {
       var t1, t2, posX, posY, conceptKeys, t3, i, t4, t5, t6, tween, tweenProperty;
       for (t1 = this.concept_start_edges, t1 = H.setRuntimeTypeInfo(new H.ListIterator(t1, t1.length, 0, null), [H.getTypeArgumentByIndex(t1, 0)]), t2 = J.getInterceptor(dragTarget), posX = 0, posY = 0; t1.moveNext$0();) {
@@ -17663,34 +17820,38 @@ var $$ = {};
   GraphRenderer_createEdgeView_closure: {
     "^": "Closure:46;this_1,edge_2,edgeView_3",
     call$1: [function(e) {
-      var t1, t2;
+      var t1, t2, t3;
       t1 = " createEdgeView > onMouseDown > " + H.S(e) + " ";
       $.mLog.log$5(t1, null, null, null, null);
       J.get$target$x(e).startDrag$1(false);
-      t1 = this.edge_2;
-      t1.set$isDragging(true);
-      t2 = this.edgeView_3;
-      t1.set$dragStartX(t2._x);
-      t1.set$dragStartY(t2._y);
-      this.this_1.mFlagGlobalHasEdgeDragging = true;
+      t1 = this.this_1;
+      t2 = this.edge_2;
+      t1.mDraggingEdge = t2;
+      t2.set$isDragging(true);
+      t3 = this.edgeView_3;
+      t2.set$dragStartX(t3._x);
+      t2.set$dragStartY(t3._y);
+      t1.mFlagGlobalHasEdgeDragging = true;
     }, "call$1", null, 2, 0, null, 1, "call"],
     $isFunction: true
   },
   GraphRenderer_createEdgeView_closure0: {
     "^": "Closure:46;box_0,this_4,edge_5,edgeView_6",
     call$1: [function(e) {
-      var t1, t2;
+      var t1, t2, t3;
       t1 = " createEdgeView > onTouchBegin > " + H.S(e) + " ";
       $.mLog.log$5(t1, null, null, null, null);
       J.get$target$x(e).startDrag$1(false);
-      t1 = this.edge_5;
-      t1.set$isDragging(true);
-      t2 = this.edgeView_6;
-      t1.set$dragStartX(t2._x);
-      t1.set$dragStartY(t2._y);
-      this.this_4.mFlagGlobalHasEdgeDragging = true;
+      t1 = this.this_4;
+      t2 = this.edge_5;
+      t1.mDraggingEdge = t2;
+      t2.set$isDragging(true);
+      t3 = this.edgeView_6;
+      t2.set$dragStartX(t3._x);
+      t2.set$dragStartY(t3._y);
+      t1.mFlagGlobalHasEdgeDragging = true;
       if (this.box_0.hasSurface_0) {
-        t1 = t1.get$surface();
+        t1 = t2.get$surface();
         $.mJsRoot.callMethod$2("info", [t1]);
       }
     }, "call$1", null, 2, 0, null, 1, "call"],
@@ -17713,9 +17874,10 @@ var $$ = {};
     call$1: [function(e) {
       var t1 = " createEdgeView > onMouseUp > " + H.S(e) + " ";
       $.mLog.log$5(t1, null, null, null, null);
+      t1 = this.this_8;
+      t1.mDraggingEdge = null;
       J.get$target$x(e).stopDrag$0();
       this.edge_9.set$isDragging(false);
-      t1 = this.this_8;
       t1.mFlagCanvasDragging = false;
       t1.mFlagGlobalHasEdgeDragging = false;
     }, "call$1", null, 2, 0, null, 1, "call"],
@@ -17726,9 +17888,10 @@ var $$ = {};
     call$1: [function(e) {
       var t1 = " createEdgeView > onTouchEnd > " + H.S(e) + " ";
       $.mLog.log$5(t1, null, null, null, null);
+      t1 = this.this_10;
+      t1.mDraggingEdge = null;
       J.get$target$x(e).stopDrag$0();
       this.edge_11.set$isDragging(false);
-      t1 = this.this_10;
       t1.mFlagCanvasDragging = false;
       t1.mFlagGlobalHasEdgeDragging = false;
     }, "call$1", null, 2, 0, null, 1, "call"],
@@ -17737,13 +17900,15 @@ var $$ = {};
   GraphRenderer_createEdgeView_closure4: {
     "^": "Closure:46;this_12,edge_13,edgeView_14",
     call$1: [function(e) {
-      var t1, t2;
-      t1 = this.edge_13;
-      if (t1.get$isDragging()) {
-        t2 = this.edgeView_14;
-        t1.set$dragDeltaX(t2._x - t1.get$dragStartX());
-        t1.set$dragDeltaY(t2._y - t1.get$dragStartY());
-        this.this_12.dynGraphLayout$1(t1);
+      var t1, t2, t3;
+      t1 = this.this_12;
+      t2 = this.edge_13;
+      t1.mDraggingEdge = t2;
+      if (t2.get$isDragging()) {
+        t3 = this.edgeView_14;
+        t2.set$dragDeltaX(t3._x - t2.get$dragStartX());
+        t2.set$dragDeltaY(t3._y - t2.get$dragStartY());
+        t1.dynGraphLayout$1(t2);
       }
     }, "call$1", null, 2, 0, null, 1, "call"],
     $isFunction: true
@@ -17751,15 +17916,17 @@ var $$ = {};
   GraphRenderer_createEdgeView_closure5: {
     "^": "Closure:46;this_15,edge_16,edgeView_17",
     call$1: [function(e) {
-      var t1, t2;
+      var t1, t2, t3;
       t1 = " createEdgeView > onTouchMove > " + H.S(e) + " ";
       $.mLog.log$5(t1, null, null, null, null);
-      t1 = this.edge_16;
-      if (t1.get$isDragging()) {
-        t2 = this.edgeView_17;
-        t1.set$dragDeltaX(t2._x - t1.get$dragStartX());
-        t1.set$dragDeltaY(t2._y - t1.get$dragStartY());
-        this.this_15.dynGraphLayout$1(t1);
+      t1 = this.this_15;
+      t2 = this.edge_16;
+      t1.mDraggingEdge = t2;
+      if (t2.get$isDragging()) {
+        t3 = this.edgeView_17;
+        t2.set$dragDeltaX(t3._x - t2.get$dragStartX());
+        t2.set$dragDeltaY(t3._y - t2.get$dragStartY());
+        t1.dynGraphLayout$1(t2);
       }
     }, "call$1", null, 2, 0, null, 1, "call"],
     $isFunction: true
@@ -18805,7 +18972,7 @@ var $$ = {};
       if (this._state >= 4)
         throw H.wrapException(this._addEventError$0());
       this._sendData$1(data);
-    }, "call$1", "get$add", 2, 0, null, 74],
+    }, "call$1", "get$add", 2, 0, null, 75],
     addError$2: function(error, stackTrace) {
       if (this._state >= 4)
         throw H.wrapException(this._addEventError$0());
@@ -18993,7 +19160,7 @@ var $$ = {};
       return H.computeSignature(function(T) {
         return {func: "void__T", void: true, args: [T]};
       }, this.$receiver, "_AsBroadcastStreamController");
-    }, 74],
+    }, 75],
     addError$2: [function(error, stackTrace) {
       var t1 = this._state;
       if ((t1 & 4) === 0 && (t1 & 2) !== 0) {
@@ -19009,7 +19176,7 @@ var $$ = {};
       }
     }, function(error) {
       return this.addError$2(error, null);
-    }, "addError$1", "call$2", "call$1", "get$addError", 2, 2, 75, 28, 29, 30],
+    }, "addError$1", "call$2", "call$1", "get$addError", 2, 2, 76, 28, 29, 30],
     close$0: [function(_) {
       var t1 = this._state;
       if ((t1 & 4) === 0 && (t1 & 2) !== 0) {
@@ -19018,7 +19185,7 @@ var $$ = {};
         return P._BroadcastStreamController.prototype.get$done.call(this);
       }
       return P._BroadcastStreamController.prototype.close$0.call(this, this);
-    }, "call$0", "get$close", 0, 0, 76],
+    }, "call$0", "get$close", 0, 0, 77],
     _callOnCancel$0: function() {
       var t1 = this._pending;
       if (t1 != null && t1.lastPendingEvent != null) {
@@ -19039,7 +19206,7 @@ var $$ = {};
     "^": "Closure:46;computation_0",
     call$1: [function(ignored) {
       return this.computation_0.call$0();
-    }, "call$1", null, 2, 0, null, 77, "call"],
+    }, "call$1", null, 2, 0, null, 78, "call"],
     $isFunction: true
   },
   Future_Future$delayed_closure0: {
@@ -19319,7 +19486,7 @@ var $$ = {};
     $isFunction: true
   },
   _Future__chainForeignFuture_closure0: {
-    "^": "Closure:78;target_1",
+    "^": "Closure:79;target_1",
     call$2: [function(error, stackTrace) {
       this.target_1._completeError$2(error, stackTrace);
     }, function(error) {
@@ -19342,7 +19509,7 @@ var $$ = {};
     $isFunction: true
   },
   _Future__propagateToListeners_handleValueCallback: {
-    "^": "Closure:79;box_1,listener_3,sourceValue_4,zone_5",
+    "^": "Closure:80;box_1,listener_3,sourceValue_4,zone_5",
     call$0: function() {
       var e, s, t1, t2, exception;
       try {
@@ -19472,11 +19639,11 @@ var $$ = {};
     "^": "Closure:46;box_2,listener_11",
     call$1: [function(ignored) {
       P._Future__propagateToListeners(this.box_2.source_4, this.listener_11);
-    }, "call$1", null, 2, 0, null, 77, "call"],
+    }, "call$1", null, 2, 0, null, 78, "call"],
     $isFunction: true
   },
   _Future__propagateToListeners_handleWhenCompleteCallback_closure0: {
-    "^": "Closure:78;box_0,listener_12",
+    "^": "Closure:79;box_0,listener_12",
     call$2: [function(error, stackTrace) {
       var t1, completeResult;
       t1 = this.box_0;
@@ -20352,7 +20519,7 @@ var $$ = {};
     $isFunction: true
   },
   _cancelAndErrorClosure_closure: {
-    "^": "Closure:80;subscription_0,future_1",
+    "^": "Closure:81;subscription_0,future_1",
     call$2: function(error, stackTrace) {
       return P._cancelAndError(this.subscription_0, this.future_1, error, stackTrace);
     },
@@ -20435,10 +20602,10 @@ var $$ = {};
       return H.computeSignature(function(S, T) {
         return {func: "void__S", void: true, args: [S]};
       }, this.$receiver, "_ForwardingStreamSubscription");
-    }, 74],
+    }, 75],
     _handleError$2: [function(error, stackTrace) {
       this._addError$2(error, stackTrace);
-    }, "call$2", "get$_handleError", 4, 0, 81, 29, 30],
+    }, "call$2", "get$_handleError", 4, 0, 82, 29, 30],
     _handleDone$0: [function() {
       this._close$0();
     }, "call$0", "get$_handleDone", 0, 0, 10],
@@ -20576,14 +20743,14 @@ var $$ = {};
     "^": "Closure:46;this_0,registered_1",
     call$1: [function(arg) {
       return this.this_0.runUnaryGuarded$2(this.registered_1, arg);
-    }, "call$1", null, 2, 0, null, 82, "call"],
+    }, "call$1", null, 2, 0, null, 83, "call"],
     $isFunction: true
   },
   _BaseZone_bindUnaryCallback_closure0: {
     "^": "Closure:46;this_2,registered_3",
     call$1: [function(arg) {
       return this.this_2.runUnary$2(this.registered_3, arg);
-    }, "call$1", null, 2, 0, null, 82, "call"],
+    }, "call$1", null, 2, 0, null, 83, "call"],
     $isFunction: true
   },
   _rootHandleUncaughtError_closure: {
@@ -21030,7 +21197,7 @@ var $$ = {};
     "^": "Closure:46;this_0",
     call$1: [function(each) {
       return this.this_0.$index(0, each);
-    }, "call$1", null, 2, 0, null, 83, "call"],
+    }, "call$1", null, 2, 0, null, 84, "call"],
     $isFunction: true
   },
   _HashMap_addAll_closure: {
@@ -21322,7 +21489,7 @@ var $$ = {};
     "^": "Closure:46;this_0",
     call$1: [function(each) {
       return this.this_0.$index(0, each);
-    }, "call$1", null, 2, 0, null, 83, "call"],
+    }, "call$1", null, 2, 0, null, 84, "call"],
     $isFunction: true
   },
   LinkedHashMapCell: {
@@ -22550,7 +22717,7 @@ var $$ = {};
     $isFunction: true
   },
   NoSuchMethodError_toString_closure: {
-    "^": "Closure:84;box_0",
+    "^": "Closure:85;box_0",
     call$2: function(key, value) {
       var t1 = this.box_0;
       if (t1.i_1 > 0)
@@ -22700,7 +22867,7 @@ var $$ = {};
       }}
   },
   Duration_toString_sixDigits: {
-    "^": "Closure:85;",
+    "^": "Closure:86;",
     call$1: function(n) {
       if (n >= 100000)
         return "" + n;
@@ -22717,7 +22884,7 @@ var $$ = {};
     $isFunction: true
   },
   Duration_toString_twoDigits: {
-    "^": "Closure:85;",
+    "^": "Closure:86;",
     call$1: function(n) {
       if (n >= 10)
         return "" + n;
@@ -24808,7 +24975,7 @@ var $$ = {};
     "^": "Closure:46;",
     call$1: [function(attr) {
       return "TEMPLATE::" + H.S(attr);
-    }, "call$1", null, 2, 0, null, 86, "call"],
+    }, "call$1", null, 2, 0, null, 87, "call"],
     $isFunction: true
   },
   FixedSizeListIterator: {
@@ -24916,7 +25083,7 @@ var $$ = {};
     }
   },
   _ValidatingTreeSanitizer_sanitizeTree_walk: {
-    "^": "Closure:87;this_0",
+    "^": "Closure:88;this_0",
     call$1: function(node) {
       var child, nextChild;
       this.this_0.sanitizeNode$1(node);
@@ -26696,25 +26863,25 @@ var $$ = {};
       type = namespace != null && namespace.length !== 0 ? H.S(handleObj.get$origType()) + "." + H.S(namespace) : handleObj.get$origType();
       Q.$$(dqevent.get$delegateTarget(), null).off$3$handler$selector(type, handleObj.get$handler(), handleObj.get$selector());
       this.handler_0.call$1(dqevent);
-    }, "call$1", null, 2, 0, null, 88, "call"],
+    }, "call$1", null, 2, 0, null, 89, "call"],
     $isFunction: true
   },
   _Query__on_closure0: {
-    "^": "Closure:89;types_1,selector_2,h_3",
+    "^": "Closure:90;types_1,selector_2,h_3",
     call$1: function(t) {
       return Q._EventUtil_add(t, this.types_1, this.h_3, this.selector_2);
     },
     $isFunction: true
   },
   _Query_off_closure: {
-    "^": "Closure:89;types_0,selector_1,handler_2",
+    "^": "Closure:90;types_0,selector_1,handler_2",
     call$1: function(t) {
       return Q._EventUtil_remove(t, this.types_0, this.handler_2, this.selector_1, false);
     },
     $isFunction: true
   },
   _Query_trigger_closure: {
-    "^": "Closure:89;type_0,data_1",
+    "^": "Closure:90;type_0,data_1",
     call$1: function(t) {
       var t1, t2, t3;
       t1 = this.type_0;
@@ -26727,7 +26894,7 @@ var $$ = {};
     $isFunction: true
   },
   _Query_triggerEvent_closure: {
-    "^": "Closure:89;event_0",
+    "^": "Closure:90;event_0",
     call$1: function(t) {
       var t1 = this.event_0;
       t1._dquery$_target = t;
@@ -26923,7 +27090,7 @@ var $$ = {};
       return t1;
     }, function($receiver) {
       return this.parent$1($receiver, null);
-    }, "parent$0", "call$1", "call$0", "get$parent", 0, 2, 90, 28, 91],
+    }, "parent$0", "call$1", "call$0", "get$parent", 0, 2, 91, 28, 92],
     children$1: [function(_, selector) {
       var results, t1, t2, t3, c;
       results = H.setRuntimeTypeInfo([], [W.Element]);
@@ -26939,7 +27106,7 @@ var $$ = {};
       return t1;
     }, function($receiver) {
       return this.children$1($receiver, null);
-    }, "children$0", "call$1", "call$0", "get$children", 0, 2, 90, 28],
+    }, "children$0", "call$1", "call$0", "get$children", 0, 2, 91, 28],
     show$0: function(_) {
       return Q._showHide(this._dquery$_elements, true);
     },
@@ -27069,7 +27236,7 @@ var $$ = {};
     "^": "Closure:65;",
     call$1: [function(elem) {
       return J.get$text$x(elem);
-    }, "call$1", null, 2, 0, null, 92, "call"],
+    }, "call$1", null, 2, 0, null, 93, "call"],
     $isFunction: true
   },
   _ElementQuery_text_closure: {
@@ -27097,7 +27264,7 @@ var $$ = {};
     $isFunction: true
   },
   _EventUtil_add__closure: {
-    "^": "Closure:93;elem_2",
+    "^": "Closure:94;elem_2",
     call$1: [function(e) {
       var t1, t2, t3, dqevent;
       if (e == null || !J.$eq($._EventUtil__triggered, J.get$type$x(e))) {
@@ -27142,7 +27309,7 @@ var $$ = {};
     $isFunction: true
   },
   _EventUtil_remove_closure1: {
-    "^": "Closure:94;box_0,handler_1,selector_2,mappedTypes_3,origType_4",
+    "^": "Closure:95;box_0,handler_1,selector_2,mappedTypes_3,origType_4",
     call$1: function(handleObj) {
       var t1, t2, res;
       if (this.mappedTypes_3 || J.$eq(this.origType_4, handleObj.get$origType())) {
@@ -27254,7 +27421,7 @@ var $$ = {};
     $isFunction: true
   },
   closure0: {
-    "^": "Closure:95;",
+    "^": "Closure:96;",
     call$2: function(elem, data) {
       elem.click$0(0);
       return false;
@@ -27262,7 +27429,7 @@ var $$ = {};
     $isFunction: true
   },
   closure1: {
-    "^": "Closure:95;",
+    "^": "Closure:96;",
     call$2: function(elem, data) {
       Q._activeElement();
       elem.focus$0(0);
@@ -27271,7 +27438,7 @@ var $$ = {};
     $isFunction: true
   },
   closure2: {
-    "^": "Closure:95;",
+    "^": "Closure:96;",
     call$2: function(elem, data) {
       Q._activeElement();
       return true;
@@ -27314,7 +27481,7 @@ var $$ = {};
     "^": "Closure:65;ref_0",
     call$1: [function(elem) {
       return J.append$1$x(this.ref_0, elem);
-    }, "call$1", null, 2, 0, null, 92, "call"],
+    }, "call$1", null, 2, 0, null, 93, "call"],
     $isFunction: true
   },
   _closest_closure: {
@@ -27335,7 +27502,7 @@ var $$ = {};
       t1 = this._mode + 1;
       this.set$mode(0, t1);
       this.set$mode(this, C.JSInt_methods.$mod(t1, 2));
-    }, "call$1", "get$_onContainerMouseDown", 2, 0, 96, 1],
+    }, "call$1", "get$_onContainerMouseDown", 2, 0, 97, 1],
     _createUi$0: function() {
       var t1, t2, bar;
       t1 = document.createElement("div", null);
@@ -27679,10 +27846,10 @@ var $$ = {};
       }}
   },
   Log_closure: {
-    "^": "Closure:98;",
+    "^": "Closure:99;",
     call$1: [function(rec) {
       P.print("[" + rec.get$sequenceNumber() + "] " + rec.get$level().name + " " + rec.get$time().toString$0(0) + ": " + H.S(J.get$message$x(rec)) + " ");
-    }, "call$1", null, 2, 0, null, 97, "call"],
+    }, "call$1", null, 2, 0, null, 98, "call"],
     $isFunction: true
   }
 }],
@@ -28040,6 +28207,9 @@ var $$ = {};
     _transitionFunction$1: function(arg0) {
       return this._transitionFunction.call$1(arg0);
     },
+    _onComplete$0: function() {
+      return this._onComplete.call$0();
+    },
     advanceTime$1: function(time) {
       var t1, t2, i, transition, t3, t4, t5, value;
       t1 = this._currentTime;
@@ -28141,6 +28311,8 @@ var $$ = {};
               }
             }
           }
+          if (this._onComplete != null && this._currentTime === this._totalTime)
+            this._onComplete$0();
         }
       }
       return this._currentTime < this._totalTime;
@@ -28853,7 +29025,7 @@ var $$ = {};
     },
     updateBounds$1: function(bounds) {
       var initPoint, startPoint, endPoint, t1, t2, angle1, angle2, arcAngle, arcSteps, i, v;
-      initPoint = new Z.Vector(this._radius, 0);
+      initPoint = new Z.Vector(C.JSNumber_methods.toDouble$0(this._radius), C.JSInt_methods.toDouble$0(0));
       startPoint = initPoint.rotate$1(0, this._startAngle);
       endPoint = initPoint.rotate$1(0, this._endAngle);
       if (!(!isNaN(bounds.cursorX) && !isNaN(bounds.cursorY))) {
@@ -29247,7 +29419,7 @@ var $$ = {};
     },
     _onMouseCursorChanged$1: [function(action) {
       J.set$cursor$x(this._canvas.style, Z.Mouse__getCssStyle(this._mouseCursor));
-    }, "call$1", "get$_onMouseCursorChanged", 2, 0, 2, 99],
+    }, "call$1", "get$_onMouseCursorChanged", 2, 0, 2, 100],
     _onMouseEvent$1: [function($event) {
       var t1, t2, button, stagePoint, t3, mouseButton, target, mouseCursor, p, oldTargetList, newTargetList, p0, t4, t5, commonCount, t6, ot, nt, i, target0, mouseEventType, isClick, isDoubleClick, localPoint;
       t1 = J.getInterceptor$x($event);
@@ -29412,7 +29584,7 @@ var $$ = {};
           }
         }
       }
-    }, "call$1", "get$_onMouseEvent", 2, 0, 100, 72],
+    }, "call$1", "get$_onMouseEvent", 2, 0, 101, 72],
     _onMouseWheelEvent$1: [function($event) {
       var t1, stagePoint, target, mouseEvent, t2;
       t1 = J.getInterceptor$x($event);
@@ -29431,7 +29603,7 @@ var $$ = {};
         if (mouseEvent._stopsPropagation)
           t1.preventDefault$0($event);
       }
-    }, "call$1", "get$_onMouseWheelEvent", 2, 0, 101, 72],
+    }, "call$1", "get$_onMouseWheelEvent", 2, 0, 102, 72],
     _onMultitouchInputModeChanged$1: [function(inputMode) {
       var t1, t2, t3, t4, t5, t6;
       H.IterableMixinWorkaround_forEach(this._touchEventSubscriptions, new Z.Stage__onMultitouchInputModeChanged_closure());
@@ -29456,7 +29628,7 @@ var $$ = {};
         t6._tryResume$0();
         this._touchEventSubscriptions = [t1, t2, t3, t4, t5, t6];
       }
-    }, "call$1", "get$_onMultitouchInputModeChanged", 2, 0, 2, 102],
+    }, "call$1", "get$_onMultitouchInputModeChanged", 2, 0, 2, 103],
     _onTouchEvent$1: [function($event) {
       var t1, t2, t3, t4, changedTouch, t5, identifier, stagePoint, target, touch, t6, t7, t8, touchEventType;
       t1 = J.getInterceptor$x($event);
@@ -29530,13 +29702,13 @@ var $$ = {};
           target.dispatchEvent$1(0, t5);
         }
       }
-    }, "call$1", "get$_onTouchEvent", 2, 0, 103, 72],
+    }, "call$1", "get$_onTouchEvent", 2, 0, 104, 72],
     _onKeyEvent$1: [function($event) {
       var t1 = J.getInterceptor$x($event);
       if (t1.get$keyCode($event) === 8)
         t1.preventDefault$0($event);
       return;
-    }, "call$1", "get$_onKeyEvent", 2, 0, 104, 72],
+    }, "call$1", "get$_onKeyEvent", 2, 0, 105, 72],
     Stage$6$color$frameRate$height$webGL$width: function(canvas, color, frameRate, height, webGL, width) {
       var t1, t2, exception;
       if (!J.getInterceptor(canvas).$isCanvasElement)
@@ -29791,10 +29963,10 @@ var $$ = {};
     _onContextLost$1: [function(contextEvent) {
       J.preventDefault$0$x(contextEvent);
       this._dispatchEventInternal$3(new Z.Event("contextLost", false, 2, null, null, false, false), this, 2);
-    }, "call$1", "get$_onContextLost", 2, 0, 105, 106],
+    }, "call$1", "get$_onContextLost", 2, 0, 106, 107],
     _onContextRestored$1: [function(contextEvent) {
       this._dispatchEventInternal$3(new Z.Event("contextRestored", false, 2, null, null, false, false), this, 2);
-    }, "call$1", "get$_onContextRestored", 2, 0, 105, 106],
+    }, "call$1", "get$_onContextRestored", 2, 0, 106, 107],
     _updateStencilDepth$1: function(stencilDepth) {
       var t1 = this._renderFrameBuffer;
       if (t1 != null) {
@@ -29904,7 +30076,7 @@ var $$ = {};
         }
         Z._dispatchBroadcastEvent(this._exitFrameEvent, $.get$_exitFrameSubscriptions());
       }
-    }, "call$1", "get$_onAnimationFrame", 2, 0, 107, 108]
+    }, "call$1", "get$_onAnimationFrame", 2, 0, 108, 109]
   },
   RenderProgram: {
     "^": "Object;",
@@ -30031,7 +30203,7 @@ var $$ = {};
     },
     _onContextRestored$1: [function(e) {
       this._program = null;
-    }, "call$1", "get$_onContextRestored", 2, 0, 109, 1],
+    }, "call$1", "get$_onContextRestored", 2, 0, 110, 1],
     RenderProgramQuad$0: function() {
       var t1, t2, i, j, t3;
       for (t1 = this._indexList, t2 = t1.length - 6, i = 0, j = 0; i <= t2; i += 6, j += 4) {
@@ -30137,7 +30309,7 @@ var $$ = {};
     },
     _onContextRestored$1: [function(e) {
       this._program = null;
-    }, "call$1", "get$_onContextRestored", 2, 0, 109, 1],
+    }, "call$1", "get$_onContextRestored", 2, 0, 110, 1],
     static: {"^": "RenderProgramTriangle__maxTriangleCount"}
   },
   _ContextState: {
@@ -30210,7 +30382,7 @@ var $$ = {};
     },
     _onContextRestored$1: [function(e) {
       this._texture = null;
-    }, "call$1", "get$_onContextRestored", 2, 0, 109, 1],
+    }, "call$1", "get$_onContextRestored", 2, 0, 110, 1],
     RenderTexture$5: function(width, height, transparent, fillColor, storePixelRatio) {
       var t1, t2, canvasWidth, canvasHeight, context;
       if (width === 0 && height === 0)
@@ -30753,7 +30925,7 @@ var $$ = {};
     offset$2: [function(_, dx, dy) {
       this.x = J.$add$ins(this.x, dx);
       this.y = J.$add$ins(this.y, dy);
-    }, "call$2", "get$offset", 4, 0, 110, 111, 112]
+    }, "call$2", "get$offset", 4, 0, 111, 112, 113]
   },
   Rectangle0: {
     "^": "Object;x*,y*,width>,height>",
@@ -30772,12 +30944,12 @@ var $$ = {};
     offset$2: [function(_, dx, dy) {
       this.x = J.$add$ins(this.x, dx);
       this.y = J.$add$ins(this.y, dy);
-    }, "call$2", "get$offset", 4, 0, 113, 111, 112]
+    }, "call$2", "get$offset", 4, 0, 114, 112, 113]
   },
   Vector: {
     "^": "Object;_x<,_y<",
     clone$0: function(_) {
-      return new Z.Vector(this._x, this._y);
+      return new Z.Vector(C.JSNumber_methods.toDouble$0(this._x), C.JSNumber_methods.toDouble$0(this._y));
     },
     get$x: function(_) {
       return this._x;
@@ -30789,19 +30961,31 @@ var $$ = {};
       return "Vector [x=" + H.S(this._x) + ", y=" + H.S(this._y) + "]";
     },
     $add: function(_, other) {
-      return new Z.Vector(this._x + other.get$_x(), this._y + other.get$_y());
+      var t1, t2;
+      t1 = other.get$_x();
+      t2 = other.get$_y();
+      return new Z.Vector(C.JSNumber_methods.toDouble$0(this._x + t1), C.JSNumber_methods.toDouble$0(this._y + t2));
     },
     $sub: function(_, other) {
-      return new Z.Vector(this._x - other.get$_x(), this._y - other.get$_y());
+      var t1, t2;
+      t1 = other.get$_x();
+      t2 = other.get$_y();
+      return new Z.Vector(C.JSNumber_methods.toDouble$0(this._x - t1), C.JSNumber_methods.toDouble$0(this._y - t2));
     },
     $mul: function(_, other) {
-      return new Z.Vector(this._x * other.get$_x(), this._y * other.get$_y());
+      var t1, t2;
+      t1 = other.get$_x();
+      t2 = other.get$_y();
+      return new Z.Vector(C.JSNumber_methods.toDouble$0(this._x * t1), C.JSNumber_methods.toDouble$0(this._y * t2));
     },
     $div: function(_, other) {
-      return new Z.Vector(this._x / other.get$_x(), this._y / other.get$_y());
+      var t1, t2;
+      t1 = other.get$_x();
+      t2 = other.get$_y();
+      return new Z.Vector(C.JSNumber_methods.toDouble$0(this._x / t1), C.JSNumber_methods.toDouble$0(this._y / t2));
     },
     $negate: function(_) {
-      return new Z.Vector(-this._x, -this._y);
+      return new Z.Vector(C.JSNumber_methods.toDouble$0(-this._x), C.JSNumber_methods.toDouble$0(-this._y));
     },
     $eq: function(_, other) {
       if (other == null)
@@ -30823,7 +31007,7 @@ var $$ = {};
       c = Math.cos(rads);
       t1 = this._x;
       t2 = this._y;
-      return new Z.Vector(t1 * c - t2 * s, t1 * s + t2 * c);
+      return new Z.Vector(C.JSNumber_methods.toDouble$0(t1 * c - t2 * s), C.JSNumber_methods.toDouble$0(t1 * s + t2 * c));
     },
     static: {"^": "Vector_Epsilon,Vector_EpsilonSqr"}
   },
@@ -31276,7 +31460,7 @@ var $$ = {};
           this._refreshPending |= 3;
         }
       }
-    }, "call$1", "get$_onKeyDown", 2, 0, 114, 115],
+    }, "call$1", "get$_onKeyDown", 2, 0, 115, 116],
     _onTextInput$1: [function(textEvent) {
       var t1, caretIndex, newText, t2;
       if (this._type === "input") {
@@ -31297,7 +31481,7 @@ var $$ = {};
         this._caretTime = 0;
         this._refreshPending |= 3;
       }
-    }, "call$1", "get$_onTextInput", 2, 0, 116, 117],
+    }, "call$1", "get$_onTextInput", 2, 0, 117, 118],
     _onMouseDown$1: [function(mouseEvent) {
       var mouseX, mouseY, canvasContext, t1, line, textLineMetrics, text, lineX, t2, t3, t4, bestDistance, bestIndex, c, width, distance;
       mouseX = J.toDouble$0$n(mouseEvent.get$localX());
@@ -31328,7 +31512,7 @@ var $$ = {};
           this._refreshPending |= 3;
         }
       }
-    }, "call$1", "get$_onMouseDown", 2, 0, 118, 119],
+    }, "call$1", "get$_onMouseDown", 2, 0, 119, 120],
     TextField$2: function(text, textFormat) {
       this.set$text(0, "");
       this._defaultTextFormat = new Z.TextFormat("Arial", 12, 0, 0, 4278190080, null, false, false, false, "left", 0, 0, 0, 0, 0, 0).clone$0(0);
@@ -31434,6 +31618,7 @@ N.Level.$isObject = true;
 W.ProgressEvent.$isEvent0 = true;
 W.ProgressEvent.$isObject = true;
 U.RelationDO.$isObject = true;
+Z.TweenProperty.$isObject = true;
 Z.DisplayObject.$isObject = true;
 Z.TextLineMetrics.$isObject = true;
 Z.MouseEvent.$isMouseEvent = true;
@@ -31451,7 +31636,6 @@ Z.TextEvent0.$isTextEvent0 = true;
 Z.TextEvent0.$isEvent = true;
 Z.TextEvent0.$isObject = true;
 Z._GraphicsCommand.$isObject = true;
-Z.TweenProperty.$isObject = true;
 Z.EnterFrameEvent.$isEnterFrameEvent = true;
 Z.EnterFrameEvent.$isEvent = true;
 Z.EnterFrameEvent.$isObject = true;
@@ -31460,6 +31644,7 @@ W.MouseEvent0.$isEvent0 = true;
 W.MouseEvent0.$isObject = true;
 Z.Event.$isEvent = true;
 Z.Event.$isObject = true;
+U.ConceptDO.$isConceptDO = true;
 U.ConceptDO.$isObject = true;
 P.Function.$isObject = true;
 S.BlockCipher.$isObject = true;
@@ -31538,6 +31723,8 @@ W.EventTarget.$isEventTarget = true;
 W.EventTarget.$isObject = true;
 W.Event0.$isEvent0 = true;
 W.Event0.$isObject = true;
+P.Comparable.$isComparable = true;
+P.Comparable.$isObject = true;
 Z.BigInteger.$isBigInteger = true;
 Z.BigInteger.$isObject = true;
 S.PreCompInfo.$isPreCompInfo = true;
@@ -31553,8 +31740,6 @@ Q.ElementQuery.$asQuery = [W.Element];
 Q.ElementQuery.$isList = true;
 Q.ElementQuery.$asList = [W.Element];
 Q.ElementQuery.$isObject = true;
-P.Comparable.$isComparable = true;
-P.Comparable.$isObject = true;
 P._EventSink.$is_EventSink = true;
 P._EventSink.$isObject = true;
 W.Animation.$isAnimation = true;
@@ -35192,6 +35377,7 @@ init.metadata = ["sender",
 "result",
 "event",
 {func: "dynamic__EnterFrameEvent", args: [Z.EnterFrameEvent]},
+{func: "int__ConceptDO_ConceptDO", ret: P.$int, args: [U.ConceptDO, U.ConceptDO]},
 "data",
 {func: "void__Object__StackTrace", void: true, args: [P.Object], opt: [P.StackTrace]},
 {func: "Future_", ret: P.Future},
@@ -42706,9 +42892,6 @@ function dart_precompiled($collectedClasses) {
   ConceptDO.prototype.set$isDragging = function(v) {
     return this.isDragging = v;
   };
-  ConceptDO.prototype.get$setAsFocus = function() {
-    return this.setAsFocus;
-  };
   ConceptDO.prototype.set$setAsFocus = function(v) {
     return this.setAsFocus = v;
   };
@@ -42739,7 +42922,7 @@ function dart_precompiled($collectedClasses) {
   ConceptDO.prototype.set$dragDeltaY = function(v) {
     return this.dragDeltaY = v;
   };
-  function GraphRenderer(conceptnet, mStage, sprite_canvas_bg, sprite_canvas_viewport, nerueTextFormat, debugTextFormat, debutText, graph_canvas, mStageWidth, mStageHeight, mFlagCanvasDragging, mFlagGlobalHasEdgeDragging, int_canvas_drag_start_x, int_canvas_drag_start_y, int_canvas_viewport_start_x, int_canvas_viewport_start_y, concept_start_edges, currentFocus, background_cache, startEdgeFoundByDraggingEndEdge) {
+  function GraphRenderer(conceptnet, mStage, sprite_canvas_bg, sprite_canvas_viewport, nerueTextFormat, debugTextFormat, debutText, graph_canvas, mStageWidth, mStageHeight, mFlagCanvasDragging, mFlagGlobalHasEdgeDragging, int_canvas_drag_start_x, int_canvas_drag_start_y, int_canvas_viewport_start_x, int_canvas_viewport_start_y, concept_start_edges, currentFocus, mDraggingEdge, background_cache, vector, damping, startEdgeFoundByDraggingEndEdge) {
     this.conceptnet = conceptnet;
     this.mStage = mStage;
     this.sprite_canvas_bg = sprite_canvas_bg;
@@ -42758,7 +42941,10 @@ function dart_precompiled($collectedClasses) {
     this.int_canvas_viewport_start_y = int_canvas_viewport_start_y;
     this.concept_start_edges = concept_start_edges;
     this.currentFocus = currentFocus;
+    this.mDraggingEdge = mDraggingEdge;
     this.background_cache = background_cache;
+    this.vector = vector;
+    this.damping = damping;
     this.startEdgeFoundByDraggingEndEdge = startEdgeFoundByDraggingEndEdge;
   }
   GraphRenderer.builtin$cls = "GraphRenderer";
