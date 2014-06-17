@@ -1380,7 +1380,7 @@ var $$ = {};
         context = new H._IsolateContext(t1, t2, t3, new Isolate(), t4, P.Capability_Capability(), P.Capability_Capability(), false, [], P.LinkedHashSet_LinkedHashSet(null, null, null, null), null, null, false, false);
         t3.add$1(0, 0);
         context._addRegistration$2(0, t4);
-        init.globalState.topEventLoop.events._add$1(new H._IsolateEvent(context, new H.IsolateNatives__processWorkerMessage_closure(entryPoint, args, message, isSpawnUri, startPaused, replyTo), "worker-start"));
+        init.globalState.topEventLoop.events._collection$_add$1(new H._IsolateEvent(context, new H.IsolateNatives__processWorkerMessage_closure(entryPoint, args, message, isSpawnUri, startPaused, replyTo), "worker-start"));
         init.globalState.currentContext = context;
         init.globalState.topEventLoop.run$0();
         break;
@@ -1461,7 +1461,7 @@ var $$ = {};
     t2 = new H.IsolateNatives__startIsolate_runStartFunction(topLevel, args, message, isSpawnUri);
     if (startPaused === true) {
       context.addPause$2(t3, t3);
-      init.globalState.topEventLoop.events._add$1(new H._IsolateEvent(context, t2, "start isolate"));
+      init.globalState.topEventLoop.events._collection$_add$1(new H._IsolateEvent(context, t2, "start isolate"));
     } else
       t2.call$0();
   },
@@ -1608,7 +1608,7 @@ var $$ = {};
       }
       t2 = new H._IsolateContext_handlePing_respond(responsePort);
       if (t1.$eq(pingType, 2)) {
-        init.globalState.topEventLoop.events._add$1(new H._IsolateEvent(this, t2, "ping"));
+        init.globalState.topEventLoop.events._collection$_add$1(new H._IsolateEvent(this, t2, "ping"));
         return;
       }
       t1 = this._scheduledControlEvents;
@@ -1617,7 +1617,7 @@ var $$ = {};
         t1.ListQueue$1(null, null);
         this._scheduledControlEvents = t1;
       }
-      t1._add$1(t2);
+      t1._collection$_add$1(t2);
     },
     handleKill$2: function(authentification, priority) {
       var t1, t2;
@@ -1635,7 +1635,7 @@ var $$ = {};
       if (t1.$eq(priority, 2)) {
         t1 = init.globalState.topEventLoop;
         t2 = this.get$kill();
-        t1.events._add$1(new H._IsolateEvent(this, t2, "kill"));
+        t1.events._collection$_add$1(new H._IsolateEvent(this, t2, "kill"));
         return;
       }
       t1 = this._scheduledControlEvents;
@@ -1644,7 +1644,7 @@ var $$ = {};
         t1.ListQueue$1(null, null);
         this._scheduledControlEvents = t1;
       }
-      t1._add$1(this.get$kill());
+      t1._collection$_add$1(this.get$kill());
     },
     eval$1: function(code) {
       var old, result, t1;
@@ -1864,7 +1864,7 @@ var $$ = {};
       }
       t2 = init.globalState.topEventLoop;
       t3 = "receive " + H.S(message);
-      t2.events._add$1(new H._IsolateEvent(isolate, new H._NativeJsSendPort_send_closure(t1, this, shouldSerialize), t3));
+      t2.events._collection$_add$1(new H._IsolateEvent(isolate, new H._NativeJsSendPort_send_closure(t1, this, shouldSerialize), t3));
     },
     $eq: function(_, other) {
       if (other == null)
@@ -2241,7 +2241,7 @@ var $$ = {};
         this._handle = 1;
         t1 = init.globalState.topEventLoop;
         t2 = init.globalState.currentContext;
-        t1.events._add$1(new H._IsolateEvent(t2, new H.TimerImpl_internalCallback(this, callback), "timer"));
+        t1.events._collection$_add$1(new H._IsolateEvent(t2, new H.TimerImpl_internalCallback(this, callback), "timer"));
         this._inEventLoop = true;
       } else {
         t1 = $.get$globalThis();
@@ -16973,6 +16973,11 @@ var $$ = {};
     t1 = new U.ConceptNetGraph(null, null);
     t1.model = U.ModelManager$();
     t2 = new U.GraphRenderer(t1, null, null, null, null, null, null, null, null, null, null, false, null, null, null, null, null, null, null, null);
+    $.Multitouch__inputMode = "touchPoint";
+    t3 = $.get$Multitouch__inputModeChangedEvent();
+    if (t3._state >= 4)
+      H.throwExpression(t3._badEventState$0());
+    t3._add$1("touchPoint");
     t1.graph = t2;
     $.mConceptnet = t1;
     t2.init$1($.mStage);
@@ -18821,7 +18826,7 @@ var $$ = {};
     get$done: function() {
       return this._ensureDoneFuture$0();
     },
-    _async$_add$1: function(data) {
+    _add$1: function(data) {
       this._sendData$1(data);
     },
     _addError$2: function(error, stackTrace) {
@@ -18879,7 +18884,7 @@ var $$ = {};
         return;
       if (t1.get$_async$_next() === this) {
         this._state |= 2;
-        this._async$_next._async$_add$1(data);
+        this._async$_next._add$1(data);
         this._state &= 4294967293;
         if (this._async$_next === this)
           this._callOnCancel$0();
@@ -18902,7 +18907,7 @@ var $$ = {};
   _SyncBroadcastStreamController__sendData_closure: {
     "^": "Closure;this_0,data_1",
     call$1: function(subscription) {
-      subscription._async$_add$1(this.data_1);
+      subscription._add$1(this.data_1);
     },
     $isFunction: true,
     $signature: function() {
@@ -19659,7 +19664,12 @@ var $$ = {};
         return this._varData.get$varData();
       return this._varData;
     },
-    _async$_add$1: function(value) {
+    _badEventState$0: function() {
+      if ((this._state & 4) !== 0)
+        return new P.StateError("Cannot add event after closing");
+      return new P.StateError("Cannot add event while adding a stream");
+    },
+    _add$1: function(value) {
       var t1 = this._state;
       if ((t1 & 1) !== 0)
         this._sendData$1(value);
@@ -19736,7 +19746,7 @@ var $$ = {};
   _SyncStreamControllerDispatch: {
     "^": "Object;",
     _sendData$1: function(data) {
-      this.get$_subscription()._async$_add$1(data);
+      this.get$_subscription()._add$1(data);
     },
     _sendError$2: function(error, stackTrace) {
       this.get$_subscription()._addError$2(error, stackTrace);
@@ -19904,7 +19914,7 @@ var $$ = {};
         this._pending = null;
       this._cancelFuture = this._onCancel$0();
     },
-    _async$_add$1: function(data) {
+    _add$1: function(data) {
       var t1 = this._state;
       if ((t1 & 8) !== 0)
         return;
@@ -20381,7 +20391,7 @@ var $$ = {};
       return this.listen$4$cancelOnError$onDone$onError(onData, null, onDone, onError);
     },
     _handleData$2: function(data, sink) {
-      sink._async$_add$1(data);
+      sink._add$1(data);
     },
     $asStream: function($S, $T) {
       return [$T];
@@ -20389,10 +20399,10 @@ var $$ = {};
   },
   _ForwardingStreamSubscription: {
     "^": "_BufferingStreamSubscription;_stream,_subscription,_async$_onData,_onError,_onDone,_zone,_state,_cancelFuture,_pending",
-    _async$_add$1: function(data) {
+    _add$1: function(data) {
       if ((this._state & 2) !== 0)
         return;
-      P._BufferingStreamSubscription.prototype._async$_add$1.call(this, data);
+      P._BufferingStreamSubscription.prototype._add$1.call(this, data);
     },
     _addError$2: function(error, stackTrace) {
       if ((this._state & 2) !== 0)
@@ -20461,7 +20471,7 @@ var $$ = {};
       }
 
       if (satisfies === true)
-        sink._async$_add$1(inputEvent);
+        sink._add$1(inputEvent);
     },
     $as_ForwardingStream: function($T) {
       return [$T, $T];
@@ -20486,7 +20496,7 @@ var $$ = {};
         return;
       }
 
-      sink._async$_add$1(outputEvent);
+      sink._add$1(outputEvent);
     }
   },
   _BaseZone: {
@@ -21444,9 +21454,9 @@ var $$ = {};
         }
         return this._addHashTableEntry$2(nums, element);
       } else
-        return this._add$1(element);
+        return this._collection$_add$1(element);
     },
-    _add$1: function(element) {
+    _collection$_add$1: function(element) {
       var rest, hash, bucket;
       rest = this._rest;
       if (rest == null) {
@@ -21698,9 +21708,9 @@ var $$ = {};
         }
         return this._addHashTableEntry$2(nums, element);
       } else
-        return this._add$1(element);
+        return this._collection$_add$1(element);
     },
-    _add$1: function(element) {
+    _collection$_add$1: function(element) {
       var rest, hash, bucket;
       rest = this._rest;
       if (rest == null) {
@@ -22250,7 +22260,7 @@ var $$ = {};
       this._head = (t1 + 1 & t3 - 1) >>> 0;
       return result;
     },
-    _add$1: function(element) {
+    _collection$_add$1: function(element) {
       var t1, t2, t3;
       t1 = this._table;
       t2 = this._tail;
@@ -31513,15 +31523,15 @@ H._IsolateEvent.$isObject = true;
 H._IsolateContext.$isObject = true;
 P.StackTrace.$isStackTrace = true;
 P.StackTrace.$isObject = true;
+P._BufferingStreamSubscription.$is_BufferingStreamSubscription = true;
+P._BufferingStreamSubscription.$is_EventSink = true;
+P._BufferingStreamSubscription.$isStreamSubscription = true;
+P._BufferingStreamSubscription.$isObject = true;
 P._BroadcastSubscription.$is_BroadcastSubscription = true;
 P._BroadcastSubscription.$is_BufferingStreamSubscription = true;
 P._BroadcastSubscription.$is_EventSink = true;
 P._BroadcastSubscription.$isStreamSubscription = true;
 P._BroadcastSubscription.$isObject = true;
-P._BufferingStreamSubscription.$is_BufferingStreamSubscription = true;
-P._BufferingStreamSubscription.$is_EventSink = true;
-P._BufferingStreamSubscription.$isStreamSubscription = true;
-P._BufferingStreamSubscription.$isObject = true;
 Q.QueryEvent.$isQueryEvent = true;
 Q.QueryEvent.$isObject = true;
 W.EventTarget.$isEventTarget = true;
