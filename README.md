@@ -2,7 +2,7 @@ Introduction
 =========
 ConceptNetGraph is a data visualization app for [ConceptNet]. With ConceptNetGraph, you can browse concepts with both visualized graph and JSON data.
 
-ConceptNetGraph is a work that I am playaround with
+ConceptNetGraph is an experimental work that I'm playing around with
 - [Dart Client]
 - [Dart Server] (Run on [Heroku])
 - [StageXL]
@@ -21,9 +21,9 @@ Milestones
 
   - 0.3.5 - graph-lish introduction 
   - 0.4.0 - control bar ui with delete functions
-  - 0.4.5 - delete motion
-  - 0.5.0 - search concept by searched result
-  - 0.5.5 - 
+  - 0.5.0 - search concept by leaf of concepts
+  - 0.6.0 - auto-scale of every concept graph by its number of end concepts
+  - 0.7.0 - auto-store and rewind of browsed concepts
   
 Feedback
 =========
