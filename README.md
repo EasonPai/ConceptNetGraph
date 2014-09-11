@@ -4,7 +4,7 @@ ConceptNetGraph is a data visualization app for [ConceptNet]. With ConceptNetGra
 
 ConceptNetGraph is an experimental work that I'm playing around with
 - [Dart Client]
-- [Dart Server] (Run on [Heroku])
+- [Dart Server] Run on [Heroku]
 - [StageXL]
 
 
