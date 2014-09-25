@@ -794,7 +794,7 @@ x.Eo(null,y)
 this.Xz=new H.ae(x,0)
 this.i2=P.L5(null,null,null,P.KN,H.aX)
 this.XC=P.L5(null,null,null,P.KN,null)
-if(this.EF===!0){z=new H.JH()
+if(this.EF===!0){z=new H.CM()
 this.Ad=z
 self.onmessage=function(b,c){return function(d){b(c,d)}}(H.Mg,z)
 self.dartPrint=self.dartPrint||function(b){return function(c){if(self.console&&self.console.log){self.console.log(c)}else{self.postMessage(b(c))}}}(H.wI)}},
@@ -952,7 +952,7 @@ IY:{
 VU:function(){var z=this.od
 if(z.gh2()){z.gC9().push(this)
 return}z.vV(this.i3)}},
-JH:{
+CM:{
 "^":"a;"},
 w6:{
 "^":"Tp:55;a,b,c,d,e,f",
@@ -3615,7 +3615,7 @@ this.r3()},
 static:{"^":"el,Us,Qn",eS:function(a,b,c){var z=new T.qN(G.S8(c,new T.N4(),null,null),G.S8(b,new T.fi(),null,null),null,null,a,Q.KM(a,null))
 z.JR(a,"affix")
 z.EG(a,b,c)
-return z},xb:function(a,b){var z,y
+return z},dj:function(a,b){var z,y
 z=new T.Os(a).$0()
 y=Q.KM(a,null)
 y=y.gFg(y).ox("affix")
@@ -3666,7 +3666,7 @@ $isEH:true},
 qO:{
 "^":"Tp:66;",
 $1:[function(a){var z
-for(z=Q.KM("[data-spy=\"affix\"]",null),z=z.gA(z);z.G();)T.xb(z.Ff,null)},"$1",null,2,0,null,2,"call"],
+for(z=Q.KM("[data-spy=\"affix\"]",null),z=z.gA(z);z.G();)T.dj(z.Ff,null)},"$1",null,2,0,null,2,"call"],
 $isEH:true},
 f4:{
 "^":"Tp:48;a",
@@ -3888,7 +3888,7 @@ cc:function(){var z={}
 z.a=!1
 P.dT(C.Ng,null,null).ml(new T.aD(z,this))
 this.Ez.mm(T.lg(),new T.wW(z,this),null,!0)},
-lQ:function(){Q.YY(this.Ez.vw,!1)
+lQ:function(){Q.uY(this.Ez.vw,!1)
 this.rh(new T.QP(this))},
 rh:function(a){var z,y,x,w,v
 z=J.ix(this.FL).lF().tg(0,"fade")
@@ -3943,7 +3943,7 @@ w=J.RE(x)
 if(w.geT(x)==null)document.body.appendChild(x)
 v=y.Ez
 u=v.vw
-Q.YY(u,!0)
+Q.uY(u,!0)
 if(z)J.kH(u,Q.O9())
 w.gnI(x).h(0,"in")
 w.gQg(x).hN.setAttribute("aria-hidden","false")
@@ -6613,7 +6613,7 @@ z[2]=J.cc(J.Ww(J.Ww(z[3],l),x),4294967295)
 z[3]=J.cc(J.Ww(J.Ww(z[4],o),w),4294967295)
 z[4]=J.cc(J.Ww(J.Ww(z[0],k),v),4294967295)
 z[0]=u},
-static:{"^":"Xk"}}}],["","",,N,{
+static:{"^":"wT"}}}],["","",,N,{
 "^":"",
 Za:{
 "^":"dO;xW,uW<,mk,NU,kn,aA,l2,ZQ,bg,tB",
@@ -11108,6 +11108,22 @@ Ea:function(){T.iL()
 var z=P.zV(J.UQ($.fh(),"js_root"),null)
 $.li=z
 z.nQ("init")
+z=document.querySelector("a[data-target=\"#modal_about_conceptnet\"]")
+$.xb=z
+z=J.p8(z)
+H.VM(new W.Ov(0,z.uv,z.fA,W.aF(new U.U1()),z.el),[H.Kp(z,0)]).DN()
+z=document.querySelector("a[data-target=\"#modal_about_conceptnetgraph\"]")
+$.YY=z
+z=J.p8(z)
+H.VM(new W.Ov(0,z.uv,z.fA,W.aF(new U.R8()),z.el),[H.Kp(z,0)]).DN()
+z=document.querySelector("a[data-target=\"#modal_conceptnet_json\"]")
+$.tB=z
+z=J.p8(z)
+H.VM(new W.Ov(0,z.uv,z.fA,W.aF(new U.BT()),z.el),[H.Kp(z,0)]).DN()
+z=document.querySelector("#about_me")
+$.Lx=z
+z=J.p8(z)
+H.VM(new W.Ov(0,z.uv,z.fA,W.aF(new U.Ag()),z.el),[H.Kp(z,0)]).DN()
 $.Gu=document.querySelector("#search-text")
 $.ml=document.querySelector("#language-select")
 $.Ek=document.querySelector("#get_concept")
@@ -11115,7 +11131,7 @@ J.Fc($.Gu,"\u6a5f\u5668\u4eba")
 $.af=document.querySelector("#modal_conceptnet_json__textarea")
 $.YA=T.YH(document.querySelector("#modal_conceptnet_json"),"true",!0,null)
 z=J.p8($.Ek)
-H.VM(new W.Ov(0,z.uv,z.fA,W.aF(new U.U1()),z.el),[H.Kp(z,0)]).DN()},
+H.VM(new W.Ov(0,z.uv,z.fA,W.aF(new U.hR()),z.el),[H.Kp(z,0)]).DN()},
 IM:function(){$.Ne.Yf(0,C.IU.fG).yI(new U.MG())},
 aS:function(){H.w4()
 $.N8=$.zI
@@ -11123,6 +11139,13 @@ var z=new M.J9(new P.uz(null,null),0,1000,0,0,1000,0,0,0,null,null,null,null,nul
 z.bi()
 document.querySelector("#fpsMeter").appendChild(z.Tk)
 $.Ne.Yf(0,C.U4.fG).yI(new U.X9(z))},
+fH:function(a,b){var z,y,x,w
+for(z=$.as(),z=H.VM(new H.a7(z,1,0,null),[H.Kp(z,0)]),y=!1;z.G();)if(a===z.Ff)y=!0
+if(!y){z=$.li
+x=b+"&date="
+w=new P.iP(Date.now(),!1)
+w.NR()
+z.V7("gaTrackEvent",[a,x+w.bu(0)])}},
 wn:{
 "^":"a;k8,zX",
 no:function(a){this.zX.no(a)},
@@ -11170,8 +11193,28 @@ $1:[function(a){$.x5.FN("result 3 >",null,null,null,null)},"$1",null,2,0,null,73
 $isEH:true},
 U1:{
 "^":"Tp:48;",
-$1:[function(a){J.jD(a)
-$.JF.I0(0,J.rr(J.Vm($.Gu)),J.rr(J.Vm($.ml)))},"$1",null,2,0,null,74,"call"],
+$1:[function(a){U.fH("about ConcentNet","")},"$1",null,2,0,null,74,"call"],
+$isEH:true},
+R8:{
+"^":"Tp:48;",
+$1:[function(a){U.fH("about ConcentNetGraph","")},"$1",null,2,0,null,74,"call"],
+$isEH:true},
+BT:{
+"^":"Tp:48;",
+$1:[function(a){U.fH("about Concept JSON","")},"$1",null,2,0,null,74,"call"],
+$isEH:true},
+Ag:{
+"^":"Tp:48;",
+$1:[function(a){U.fH("about me","")},"$1",null,2,0,null,74,"call"],
+$isEH:true},
+hR:{
+"^":"Tp:48;",
+$1:[function(a){var z,y
+J.jD(a)
+z=J.rr(J.Vm($.Gu))
+y=J.rr(J.Vm($.ml))
+U.fH("search",z+" & "+y)
+$.JF.I0(0,z,y)},"$1",null,2,0,null,74,"call"],
 $isEH:true},
 MG:{
 "^":"Tp:48;",
@@ -12236,7 +12279,7 @@ if(typeof z!=="number")return z.i()
 return(z&4)!==0},
 F4:[function(){},"$0","ghS",0,0,12],
 ie:[function(){},"$0","gxl",0,0,12],
-static:{"^":"Ph,CM,id"}},
+static:{"^":"Ph,H6,id"}},
 WV:{
 "^":"a;iE@,SJ@",
 gh2:function(){return!1},
@@ -13177,7 +13220,7 @@ pK:{
 "^":"Tp:55;a,b",
 $0:function(){throw H.b(P.Uz(this.a,this.b))},
 $isEH:true},
-R8:{
+R81:{
 "^":"m0;",
 geT:function(a){return},
 gF7:function(){return this},
@@ -14612,7 +14655,7 @@ Ph:function(a,b){return a.dispatchEvent(b)},
 Y9:function(a,b,c,d){return a.removeEventListener(b,H.tR(c,1),d)},
 $isD0:true,
 "%":"MediaStream;EventTarget"},
-as:{
+EN:{
 "^":"Bo;lz:disabled},oc:name=,r9:type=",
 "%":"HTMLFieldSetElement"},
 nX:{
@@ -15465,7 +15508,7 @@ Qy:{
 ju:{
 "^":"d5;r9:type=,fg:height=,R:width=,x=,y=",
 "%":"SVGFETurbulenceElement"},
-tB:{
+OE5:{
 "^":"d5;fg:height=,R:width=,x=,y=",
 "%":"SVGFilterElement"},
 N9:{
@@ -15495,7 +15538,7 @@ NJ:{
 ib:{
 "^":"d5;r9:type=",
 "%":"SVGScriptElement"},
-Lx:{
+Lu:{
 "^":"d5;lz:disabled},r9:type=",
 "%":"SVGStyleElement"},
 d5:{
@@ -15957,7 +16000,7 @@ if(z)return new Q.dS(a,null,null,null,null)
 throw H.b(P.u("Selector type should be String, Element, or List<Element>: "+H.d(a)))},
 wL:function(a){var z=J.RE(a)
 return J.rv(z.gS(a))==="none"||J.rv(z.r0(a))==="none"||z.gJ8(a).contains(a)!==!0},
-YY:function(a,b){var z,y,x,w,v,u,t,s,r,q,p,o,n,m
+uY:function(a,b){var z,y,x,w,v,u,t,s,r,q,p,o,n,m
 z=P.Py(null,null,null,W.cv,P.qU)
 for(y=J.w1(a),x=y.gA(a),w=b===!0;x.G();){v=x.gl()
 u=$.uj().uj
@@ -16453,12 +16496,12 @@ if(!x||J.bh(v,b)===!0)z.push(v)}y=new Q.dS(z,null,null,null,null)
 y.tX=this
 y.bJ=this.bJ
 return y},function(a){return this.H7(a,null)},"pl","$1","$0","gwd",0,2,96,30],
-nE:function(a){return Q.YY(this.vw,!0)},
-qj:function(){return Q.YY(this.vw,!1)},
+nE:function(a){return Q.uY(this.vw,!0)},
+qj:function(){return Q.uY(this.vw,!1)},
 lo:function(a){var z,y,x
 for(z=J.GP(this.vw);z.G();){y=z.gl()
 x=new Q.NO(y).$0()
-Q.YY([y],x)}},
+Q.uY([y],x)}},
 jJ:function(){return this.lo(null)},
 Z6:function(a){return J.pb(this.vw,new Q.Km(a))},
 Wu:function(a){return J.kH(this.vw,new Q.Zn(a))},
@@ -16948,7 +16991,7 @@ return this.P-z},
 giO:function(a){return this.P},
 bu:function(a){return this.oc},
 $isuK:true,
-static:{"^":"h1,Ds,ab,LkO,IQ,FL,EN,AN,BZ,wC,ux"}},
+static:{"^":"h1,Ds,ab,LkO,IQ,FL,dc,AN,BZ,wC,ux"}},
 fZ:{
 "^":"a;QG<,G1>,ci,Fl<,u7<,kc>,I4<",
 bu:function(a){return"["+this.QG.oc+"] "+this.ci+": "+this.G1},
@@ -19750,7 +19793,7 @@ C.KZ=new H.hJ()
 C.Eq=new P.k5()
 C.dP=new P.MJ()
 C.pr=new P.mgb()
-C.NU=new P.R8()
+C.NU=new P.R81()
 C.ny=new P.a6(0)
 C.jm=new P.a6(1000)
 C.Ng=new P.a6(500000)
@@ -19982,6 +20025,10 @@ $.YA=null
 $.af=null
 $.li=null
 $.Gu=null
+$.xb=null
+$.YY=null
+$.tB=null
+$.Lx=null
 $.ml=null
 $.S0=null
 $.Ek=null
@@ -22324,6 +22371,7 @@ z=new Z.E7(z,H.VM([],[Z.Lz]),-1,null,!1,new Z.ya(0,"enterFrame",!1,2,null,null,!
 z.Vf=-1
 z.mU(0)
 return z})
+I.$lazy($,"ignoreList","JH","as",function(){return[""]})
 I.$lazy($,"scheduleImmediateClosure","lI","ej",function(){return P.xg()})
 I.$lazy($,"_toStringVisiting","NX","P0",function(){return[]})
 I.$lazy($,"_allowedElements","zX","Fv",function(){var z=P.Ls(null,null,null,null)
