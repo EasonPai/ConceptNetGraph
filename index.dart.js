@@ -11130,7 +11130,7 @@ I0:function(a,b,c){var z=H.VM(new P.Zf(P.Dt(null)),[null])
 J.zL($.Ek,!0)
 if(this.k8.JK.YK.x4(b))J.zL($.Ek,!1)
 else{$.li.V7("start_progressjs",["#search-text"])
-this.k8.NN(0,"http://dartio.herokuapp.com/conceptnet",b,c).ml(new U.ir(this,z))}return z.MM},
+this.k8.NN(0,"https://dartio.herokuapp.com/conceptnet",b,c).ml(new U.ir(this,z))}return z.MM},
 static:{"^":"dQ,tf,PT"}},
 ir:{
 "^":"Tp:48;a,b",
