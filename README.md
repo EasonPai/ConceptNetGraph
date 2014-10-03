@@ -1,14 +1,17 @@
 Introduction
 =========
-ConceptNetGraph is a data visualization app for [ConceptNet]. With ConceptNetGraph, you can browse concepts with visual graph as well as JSON data.
+ConceptNetGraph is a data visualization app for [ConceptNet](http://conceptnet5.media.mit.edu/). With ConceptNetGraph, you can browse concepts with visual graph as well as JSON data.
 
-ConceptNetGraph is an experimental work that made with 
-- [Dart Client]
-- [StageXL]
-- [Dart Server] (Host on [Heroku])
-- and a lot of awesome Dart libraries
+ConceptNetGraph is an experimental app build by [Eason Pai](https://github.com/EasonPai) and is built with
 
-This app is still work in progress, more fun stuffs are coming up.
+  + [Dart Client] (https://www.dartlang.org/)
+  + [StageXL] (http://www.stagexl.org/)
+  + [Dart Server] (https://www.dartlang.org/articles/io/) (Hosting on [Heroku](https://www.heroku.com/))
+  + and a lot of awesome Dart libraries
+
+
+This app is still work in progress, more features are coming.
+
 
 Version
 =========
@@ -36,12 +39,4 @@ Milestones
   
 Feedback
 =========
-Feel free to give me feedbacks with [Issues].
-
-[Dart]:https://www.dartlang.org/
-[Issues]:https://github.com/EasonPai/ConceptNetGraph/issues
-[ConceptNet]:http://conceptnet5.media.mit.edu/
-[Dart Server]:https://www.dartlang.org/articles/io/
-[StageXL]:https://www.dartlang.org/
-[Heroku]:https://www.heroku.com/
- 
+Feel free to give feedbacks with [Issues](https://github.com/EasonPai/ConceptNetGraph/issues) (Github account is required).
